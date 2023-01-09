@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CharacterBase" Collapsed="true">
+    <Position X="10" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Assets\Logic\Characters\CharacterBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerCharacter" Collapsed="true">
+    <Position X="10" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAQBDAEAAAAAAAIAAAAAAAAAAAAAAAAAAAICEA=</HashCode>
+      <FileName>Assets\Logic\Characters\Player\PlayerCharacter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameProcessManager" Collapsed="true">
+    <Position X="12.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAACAAAAAAAGAAAAAQAAAAAABAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Managers\GameProcessManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScrPlayerCharacter" Collapsed="true">
+    <Position X="8" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Scriptables\ScrPlayerCharacter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScrUnitBase" Collapsed="true">
+    <Position X="8" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAADAAAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Logic.Environment.Waves.WavesBehavior" Collapsed="true">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQEAAAABKAAAAAAgAAAAAAAAAQAAEAgAgAAAEAAAAA=</HashCode>
+      <FileName>Assets\Logic\Environment\Waves\WavesBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Assets.Logic.Environment.Waves.WavesTileBehavior" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQEAAABACAAAAAgABAAAAAAQAAAACAAAAAAACAAAAA=</HashCode>
+      <FileName>Assets\Logic\Environment\Waves\WavesTileBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Stats" Collapsed="true">
+    <Position X="12.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="GameState" Collapsed="true">
+    <Position X="14.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAQAAAAAAAAAAQAAAAAAAMAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\Logic\Managers\GameProcessManager.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Faction" Collapsed="true">
+    <Position X="12.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
