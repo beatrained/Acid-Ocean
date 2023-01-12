@@ -5,25 +5,19 @@ using UnityEngine;
 
 public abstract class ScrUnitBase : ScriptableObject
 {
-    [SerializeField] private Stats _stats;
-    public Stats BaseStats => _stats;
+    [SerializeField] private BasicActorStats _stats;
+    public BasicActorStats BaseStats => _stats;
     [SerializeField] private Faction _faction;
     public Faction Faction => _faction;
 }
 
 [Serializable]
-public struct Stats
+public struct BasicActorStats
 {
     public float Health;
     public float Speed;
     public float SpeedMlt;
-
-    public Stats(float health, float speed, float speedMlt)
-    {
-        Health = health;
-        Speed = speed;
-        SpeedMlt = speedMlt;
-    }
+    public string Name;
 }
 
 [Serializable]

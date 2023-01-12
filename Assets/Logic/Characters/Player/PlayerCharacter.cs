@@ -11,6 +11,9 @@ public class PlayerCharacter : CharacterBase
 
     private bool _isSpeedMultiplied = false;
 
+    BasicActorStats PlayerStats = new BasicActorStats(); //
+    private float _speedStorage;
+
     public bool IsSpeedMultiplied
     {
         get
@@ -21,13 +24,14 @@ public class PlayerCharacter : CharacterBase
         {
             if (value == true)
             {
-                SetStats(new Stats(Stats.Health, Stats.Speed * _scrPlayerCharacter.BaseStats.SpeedMlt, Stats.SpeedMlt));
-                print(Stats.Speed);
+                _speedStorage = PlayerStats.Speed;  //
+                PlayerStats.Speed = _scrPlayerCharacter.SpeedOnFourLegs; //         CharStats.Speed * CharStats.SpeedMlt;
+                
             } else
             {
-                SetStats(new Stats(Stats.Health, _scrPlayerCharacter.BaseStats.Speed, Stats.SpeedMlt));
-                print(Stats.Speed);
+                PlayerStats.Speed = _speedStorage;
             }
+            SetStats(PlayerStats);
             _isSpeedMultiplied = value;
         }
     }
@@ -43,6 +47,7 @@ public class PlayerCharacter : CharacterBase
     private void Start()
     {
         SetStats(_scrPlayerCharacter.BaseStats);    // -> to loading state?
+        PlayerStats = CharStats; //
     }
     private void OnEnable()
     {

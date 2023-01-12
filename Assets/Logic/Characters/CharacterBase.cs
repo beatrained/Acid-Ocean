@@ -5,11 +5,14 @@ using UnityEngine;
 public abstract class CharacterBase : MonoBehaviour
 {
     public bool CanMove { get; set; }
-    public Stats Stats { get; set; }
+    public BasicActorStats CharStats { get; set; }
 
-    public virtual void SetStats(Stats stats)
+    /// <summary>
+    ///     грузит Character stats.
+    /// </summary>
+    public virtual void SetStats(BasicActorStats stats)
     {
-        Stats = stats;
+        CharStats = stats;
     }
 
     public virtual void ApplyDamage(float damage) { }

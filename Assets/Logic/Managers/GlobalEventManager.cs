@@ -3,19 +3,8 @@ using UnityEngine;
 
 namespace AcidOcean.Game
 {
-    public class GlobalEventManager : MonoBehaviour
+    public class GlobalEventManager
     {
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

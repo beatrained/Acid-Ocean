@@ -34,7 +34,7 @@ namespace AcidOcean.Gameplay
 
         void UpdateStats()
         {
-            _playerSpeed = _playerCharacter.Stats.Speed;
+            _playerSpeed = _playerCharacter.CharStats.Speed;
         }
 
 
@@ -70,7 +70,6 @@ namespace AcidOcean.Gameplay
             if (context.performed)
             {
                 UpdateStats();
-                _animator.StopPlayback();
                 if (_animator.GetBool("OnTwoLegs") == false)
                 {
                     LocalEventManager.StayOnTwo();
