@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2b2f0ea3cd67c947ae2ef60252f5d64, type: 3}
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
-  _stats:
-    Health: 100
-    Speed: 15
-    SpeedMlt: 1.4
+  Health: 100
+  Speed: 15
+  SpeedMlt: 1.5
+  Name: Player Big Bot
   _faction: 0
+  SpeedOnFourLegs: 21

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: EnemySOMelee
   m_EditorClassIdentifier: Assembly-CSharp::ScrEnemyCharacterMelee
-  _stats:
-    Health: 0
-    Speed: 0
-    SpeedMlt: 0
-  _faction: 0
+  Health: 10
+  Speed: 10
+  SpeedMlt: 1.3
+  Name: Melee Flower Bot
+  _faction: 1

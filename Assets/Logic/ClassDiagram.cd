@@ -3,14 +3,14 @@
   <Class Name="CharacterBase" Collapsed="true">
     <Position X="10" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAEAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAACAAAAAAAAAEAAAAAAAAAAAAAAEAA=</HashCode>
       <FileName>Assets\Logic\Characters\CharacterBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerCharacter" Collapsed="true">
     <Position X="10" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAQBDAEAAAAAAAIAAAAAAAAAAAAAAAAAAAICEA=</HashCode>
+      <HashCode>AAABAAAQBCAEAAAAAAAIAgAAAAAAAABAAAAAAAAICEA=</HashCode>
       <FileName>Assets\Logic\Characters\Player\PlayerCharacter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,14 +24,14 @@
   <Class Name="ScrPlayerCharacter" Collapsed="true">
     <Position X="8" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Scriptables\ScrPlayerCharacter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScrUnitBase" Collapsed="true">
     <Position X="8" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAADAAAAAAAAAAACAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAACAAACAAAAAAAAAAAAAQBAAEAAAAAQAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -49,13 +49,6 @@
       <FileName>Assets\Logic\Environment\Waves\WavesTileBehavior.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="Stats" Collapsed="true">
-    <Position X="12.5" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAACAAAAAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
-    </TypeIdentifier>
-  </Struct>
   <Enum Name="GameState" Collapsed="true">
     <Position X="14.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>

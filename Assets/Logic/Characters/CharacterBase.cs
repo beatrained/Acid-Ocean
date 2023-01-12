@@ -5,12 +5,12 @@ using UnityEngine;
 public abstract class CharacterBase : MonoBehaviour
 {
     public bool CanMove { get; set; }
-    public BasicActorStats CharStats { get; set; }
+    public ScrUnitBase CharStats { get; set; }
 
     /// <summary>
     ///     грузит Character stats.
     /// </summary>
-    public virtual void SetStats(BasicActorStats stats)
+    public virtual void SetStats(ScrUnitBase stats)
     {
         CharStats = stats;
     }
