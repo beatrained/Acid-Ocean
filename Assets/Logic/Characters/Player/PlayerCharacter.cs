@@ -4,15 +4,11 @@ using AcidOcean.Game;
 public class PlayerCharacter : CharacterBase
 {
     private void Awake() => GameProcessManager.OnBeforeStateChanged += OnStateChanged;
-
     private void OnDestroy() => GameProcessManager.OnBeforeStateChanged -= OnStateChanged;
 
     [SerializeField] private ScrPlayerCharacter _scrPlayerCharacter;
-    //ScrUnitBase PlayerStats;
 
     private bool _isSpeedMultiplied = false;
-
-
     private float _speedStorage;
 
 
@@ -26,8 +22,8 @@ public class PlayerCharacter : CharacterBase
         {
             if (value == true)
             {
-                _speedStorage = CharStats.Speed;  //
-                CharStats.Speed = _scrPlayerCharacter.SpeedOnFourLegs; //         CharStats.Speed * CharStats.SpeedMlt;
+                _speedStorage = CharStats.Speed;
+                CharStats.Speed = _scrPlayerCharacter.SpeedOnFourLegs;
                 
             } else
             {

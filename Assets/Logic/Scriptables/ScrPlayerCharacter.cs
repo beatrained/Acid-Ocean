@@ -5,6 +5,6 @@ using UnityEngine;
 public class ScrPlayerCharacter : ScrUnitBase
 {
     //sth additional exclusively to player stats maybe here?
-    [Space(10), Header("Additional stats")]
+    [Space(10), Header("Additional Stats")]
     [SerializeField] public float SpeedOnFourLegs = 21;
 }

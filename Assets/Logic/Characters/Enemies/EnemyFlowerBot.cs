@@ -4,15 +4,43 @@ using UnityEngine;
 
 public class EnemyFlowerBot : EnemyCharacter
 {
-    // Start is called before the first frame update
-    void Start()
+
+    [SerializeField] private ScrEnemyCharacterMelee _scriptableEnemyCharacter;
+    public ScrEnemyCharacterMelee ScriptableEnemyCharacter { get; private set; }
+
+    private void Awake()
     {
-        
+        ChangeState(ActorState.Sleeping);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        SetStats(_scriptableEnemyCharacter);
+    }
+
+    public override void HandleSleeping()
+    {
+        //base.HandleSleeping();
+        print("flower bot is SLEEPING");
+    }
+
+    public override void HandleChasing()
+    {
+        //base.HandleChasing();
+        print("flower bot is CHASING sth");
+    }
+
+    public void CanSeeTarget(DetectableTargetComponent target) // выше
+    {
+        print("I can see " + target.gameObject.name);
+    }
+
+    private void Update()
+    {
+        // debug
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            ChangeState(ActorState.Chasing);
+        }
     }
 }

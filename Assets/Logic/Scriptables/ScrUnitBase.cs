@@ -10,7 +10,13 @@ public abstract class ScrUnitBase : ScriptableObject
     [SerializeField] public float Speed;
     [SerializeField] public float SpeedMlt;
     [SerializeField] public string Name;
-    [SerializeField] private Faction _faction;
+
+    // AI
+    [SerializeField] public Faction _faction;
+    [SerializeField] public float VisionRange;
+    [SerializeField] public float VisionAngle;
+    [SerializeField] public float HearingRange;
+
     [SerializeField] public Faction Faction => _faction;
 }
 

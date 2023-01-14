@@ -6,10 +6,12 @@ using UnityEngine;
 public class SB_Trigger : MonoBehaviour
 {
     [SerializeField] private bool _manualTrigger = false;
+    Vector3 _testVector = new Vector3(1, 0, 1);
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
