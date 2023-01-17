@@ -12,9 +12,36 @@ public class MovingComponent : MonoBehaviour
     private CharacterBase _thisCharacter;
     private NavMeshAgent _agent;
 
-    Vector3 _tempTargetPoint;
-    bool _step = true;
-    float _distanceToFinalTarget;
+    private Vector3 _tempTargetPoint;
+    private bool _step = true;
+    //private float _distanceToFinalTarget;
+
+    private delegate IEnumerator MovementDecisions();
+
+    private MovementDecisions WhatToDo;
+    int _movementChoice = 0;
+    public int MovementChoice
+    {
+        get
+        {
+            return _movementChoice;
+        }
+        set
+        {
+            _movementChoice = Mathf.Clamp(value, 0, 2);
+            switch (_movementChoice)
+            {
+                case 0: WhatToDo = StartZWalking;
+                    break;
+                case 1: WhatToDo = StayAtDistance;
+                    break;
+                case 2: WhatToDo = StayAlertAndDoNothing;
+                    break;
+                default: WhatToDo = StayAlertAndDoNothing;
+                    break;
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -24,39 +51,46 @@ public class MovingComponent : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_thisCharacter.CanIMove == true)
+        if (_thisCharacter.CanIMove == true && _thisCharacter.TargetToMoveTo != null)
         {
-            if (_thisCharacter.TargetToMoveTo != null && _thisCharacter.TargetToMoveTo.transform.position != Vector3.zero)
+            if (_step)
             {
-                if (_step)
-                {
-                    StartCoroutine(ZWalking());
-                }
-                Debug.DrawLine(_thisCharacter.transform.position, _tempTargetPoint, new Color(0, 255, 0));
+                StartCoroutine(WhatToDo());
             }
+            Debug.DrawLine(_thisCharacter.transform.position, _tempTargetPoint, new Color(0, 255, 0));
         }
     }
 
-    private void Update()
+    //    _tempPoint = transform.position + (5 * (target - transform.position).normalized);
+    //    _distanceToFinalTarget = Mathf.Abs((transform.position - target).sqrMagnitude);
+
+
+    // go towards target on some distance and hold position (shooting distance for example)
+    private IEnumerator StayAtDistance()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        _step = false;
+        _tempTargetPoint = _thisCharacter.TargetToMoveTo.transform.position;
+        if ((transform.position - _tempTargetPoint).sqrMagnitude > 40)             // TODO remove magic numbers
         {
-            print("transform.position is " + transform.position);
-            print("target position is " + _thisCharacter.TargetToMoveTo.transform.position);
-            print("transform.position - target position is " + (transform.position - _thisCharacter.TargetToMoveTo.transform.position));
-            print("target position - transform.position is " + ((_thisCharacter.TargetToMoveTo.transform.position) - transform.position));
+            _agent.destination = _tempTargetPoint;
+            _agent.isStopped = false;
         }
+        else
+        {
+            _agent.isStopped = true;
+        }
+        yield return null;
+        _step = true;
     }
 
-    // набор функций, где вычисляеются разные движения? А передавать можно делегатом кстати
-
-    public void MoveToTarget(Vector3 target)
+    private IEnumerator StayAlertAndDoNothing()
     {
-        //_tempPoint = transform.position + (5 * (target - transform.position).normalized);
-        _distanceToFinalTarget = Mathf.Abs((transform.position - target).sqrMagnitude);
+        print("really? " + _thisCharacter.gameObject.name + " reports that can see target but stay at place");
+        yield return new WaitForSeconds(1);
     }
 
-    IEnumerator ZWalking()
+    // Go towards target in melee range, robot-style
+    private IEnumerator StartZWalking()
     {
         _agent.isStopped = false;
         _step = false;
@@ -66,5 +100,10 @@ public class MovingComponent : MonoBehaviour
         _agent.isStopped = true;
         yield return new WaitForSeconds(0.5f);
         _step = true;
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }

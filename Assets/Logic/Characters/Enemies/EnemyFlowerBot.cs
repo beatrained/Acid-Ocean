@@ -27,7 +27,7 @@ public class EnemyFlowerBot : EnemyCharacter
 
     private void Update()
     {
-        _animator.SetFloat("Speed", _agent.velocity.magnitude);
+        _animator.SetFloat("Speed", _agent.velocity.magnitude); // TODO another .magnitude here
     }
 
     private void Start()
@@ -48,6 +48,7 @@ public class EnemyFlowerBot : EnemyCharacter
     {
         print("flower bot is now CHASING " + TargetToMoveTo.name);
         CanIMove = true;
+        _movingComponent.MovementChoice = 1;
     }
 
     public override void HandleTarget()
