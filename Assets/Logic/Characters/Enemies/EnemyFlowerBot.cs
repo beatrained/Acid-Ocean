@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyFlowerBot : EnemyCharacter
 {
@@ -8,14 +11,31 @@ public class EnemyFlowerBot : EnemyCharacter
     [SerializeField] private ScrEnemyCharacterMelee _scriptableEnemyCharacter;
     public ScrEnemyCharacterMelee ScriptableEnemyCharacter { get; private set; }
 
+    Animator _animator;
+    NavMeshAgent _agent;
+    MovingComponent _movingComponent;
+
+    
+
     private void Awake()
     {
         ChangeState(ActorState.Sleeping);
+        SetStats(_scriptableEnemyCharacter);
+    }
+
+    // we need to calculate agent speed
+
+    private void Update()
+    {
+        _animator.SetFloat("Speed", _agent.velocity.magnitude);
     }
 
     private void Start()
     {
-        SetStats(_scriptableEnemyCharacter);
+        _animator = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
+        _movingComponent = GetComponent<MovingComponent>();
+        _agent.speed = CharStats.Speed;
     }
 
     public override void HandleSleeping()
@@ -26,19 +46,14 @@ public class EnemyFlowerBot : EnemyCharacter
 
     public override void HandleChasing()
     {
-        //base.HandleChasing();
-        print("flower bot is CHASING sth");
+        print("flower bot is now CHASING " + TargetToMoveTo.name);
+        CanIMove = true;
     }
 
-    public void CanSeeTarget(DetectableTargetComponent target) // выше
+    public override void HandleTarget()
     {
-        print("I can see " + target.gameObject.name);
-    }
-
-    private void Update()
-    {
-        // debug
-        if (Input.GetKeyDown(KeyCode.N))
+        // deal with player
+        if (TargetToMoveTo.CompareTag("Player"))
         {
             ChangeState(ActorState.Chasing);
         }

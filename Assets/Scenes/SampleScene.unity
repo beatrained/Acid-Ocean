@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: bc0a47280f58a674babad2c6a0a7f8a4, type: 2}
 --- !u!1001 &10596157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2608,6 +2608,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: env_island_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e8daa2683adeb2e42990cb9c194409ad,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8daa2683adeb2e42990cb9c194409ad, type: 3}
@@ -6940,7 +6945,7 @@ GameObject:
   - component: {fileID: 551292196}
   m_Layer: 6
   m_Name: Cr_Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7024,7 +7029,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &551292195
 MonoBehaviour:
@@ -7038,6 +7043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea28b20693871124d85a184da2dd6417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanIMove: 0
   _scrPlayerCharacter: {fileID: 11400000, guid: 7e38fe703858a224198edbd968288372,
     type: 2}
 --- !u!114 &551292196
@@ -15191,6 +15197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2304cd5c3ec7004ca16199fbdde8704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanIMove: 0
   _scriptableEnemyCharacter: {fileID: 11400000, guid: 65f0d8716cda5854f8f6f01d5deebb7d,
     type: 2}
 --- !u!114 &1118496085
@@ -15207,7 +15214,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectionMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 64
+--- !u!195 &1118496086
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118496079}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &1118496091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118496079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd88e401be400e41b085e46985ec398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1127740630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19712,7 +19753,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481948273}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7c13a8bf755ecd43b4b10a92742e9d0, type: 3}
   m_Name: 
@@ -25856,7 +25897,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1ddce1d29fb1bfd4c92eccbb501c14ad,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.29
+      value: 19.04
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ddce1d29fb1bfd4c92eccbb501c14ad,
         type: 3}
@@ -25866,7 +25907,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1ddce1d29fb1bfd4c92eccbb501c14ad,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 30.97
+      value: 32.82
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ddce1d29fb1bfd4c92eccbb501c14ad,
         type: 3}
@@ -28151,6 +28192,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyBladeFlower
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087015494498547840, guid: 9316466af7fe28447825dbdc5e9bdbe3,
+        type: 3}
+      propertyPath: m_Drag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087015494498547840, guid: 9316466af7fe28447825dbdc5e9bdbe3,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9316466af7fe28447825dbdc5e9bdbe3, type: 3}

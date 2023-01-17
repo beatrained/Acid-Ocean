@@ -43,7 +43,7 @@ namespace AcidOcean.Gameplay
             _inputVector = _playerInputActions.PlayerBasicMovement.Movement.ReadValue<Vector2>();
             _force = _playerLookDir * _playerSpeed;
             _rigidbody.AddForce(_force, ForceMode.Force);
-            _animator.SetFloat("Speed", _force.magnitude);
+            _animator.SetFloat("Speed", _force.magnitude);   // TODO get rid of .magnitude?
         }
 
         private void Update()

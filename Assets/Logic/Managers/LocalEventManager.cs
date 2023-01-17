@@ -10,5 +10,6 @@ namespace AcidOcean.Game
         public static event UnityAction StandOnFourLegs;
         public static void StayOnTwo() => StandOnTwoLegs?.Invoke();
         public static void StayOnFour() => StandOnFourLegs?.Invoke();
+
     }
 }

@@ -37,7 +37,7 @@ public class PlayerCharacter : CharacterBase
     {
         if (state == GameState.Running)
         {
-            CanMove = true;
+            CanIMove = true;
         }
     }
 
