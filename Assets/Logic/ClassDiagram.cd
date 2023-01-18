@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="CharacterBase" Collapsed="true">
-    <Position X="1.75" Y="3.5" Width="1.5" />
+  <Class Name="CharacterBase">
+    <Position X="0.5" Y="3.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAABCACAAABAACAAEAAAAAAAAgAAAAAECA=</HashCode>
+      <HashCode>AAAAQQAAQgACDHACAAABACAAAEAAAAAAAAgAAAAgECA=</HashCode>
       <FileName>Assets\Logic\Characters\CharacterBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EnemyCharacter" Collapsed="true">
-    <Position X="2.75" Y="5" Width="1.5" />
+    <Position X="3.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Characters\Enemies\EnemyCharacter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EnemyFlowerBot" Collapsed="true">
-    <Position X="2.75" Y="6.5" Width="1.5" />
+    <Position X="6" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAACAAACAABAABAAAAAAAAACAAACAAAAAAAEA=</HashCode>
+      <HashCode>AIQBAAAAAiAAAnAABAABAAAAAAABACAAIEAAAAAgAUA=</HashCode>
       <FileName>Assets\Logic\Characters\Enemies\EnemyFlowerBot.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerCharacter" Collapsed="true">
-    <Position X="0.5" Y="5" Width="1.5" />
+    <Position X="3.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAQBCAEAAAAAAAIAgAAAAAAAABAAAAAAAAICEA=</HashCode>
       <FileName>Assets\Logic\Characters\Player\PlayerCharacter.cs</FileName>
@@ -45,7 +45,7 @@
   <Class Name="SB_Trigger" Collapsed="true">
     <Position X="9.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAACAAAAACCAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAACAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Sandbox\SB_Trigger.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -115,14 +115,14 @@
   <Class Name="StaticUtils" Collapsed="true">
     <Position X="11.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAIAAAACAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Sandbox\StaticUtils.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="ActorState" Collapsed="true">
     <Position X="6" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAUAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAACAA=</HashCode>
+      <HashCode>AAUAAAAAAAAAAAAAJAAAAAAAAAJAAEAAAAAAAAAACAA=</HashCode>
       <FileName>Assets\Logic\Characters\Enemies\EnumActorStates.cs</FileName>
     </TypeIdentifier>
   </Enum>

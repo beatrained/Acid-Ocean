@@ -27,6 +27,15 @@ public static class StaticUtils
         Gizmos.DrawLine(posA, initialPos);
     }
 
+    public static Vector3 RandomVector3 (float xMin, float xMax, float yMin, float yMax, float zMin, float zMax)
+    {
+        float x = Random.Range(xMin, xMax);
+        float y = Random.Range(yMin, yMax);
+        float z = Random.Range(zMin, zMax);
+
+        return new Vector3(x, y, z);
+    }
+
     static float GetAnglesFromDir(Vector3 position, Vector3 dir)
     {
         Vector3 forwardLimitPos = position + dir;

@@ -13,4 +13,9 @@ public class DetectableTargetComponent : MonoBehaviour
     {
         DetectableTargetManager.Instance.Unregister(this);
     }
+
+    private void OnDisable()
+    {
+        DetectableTargetManager.Instance.Unregister(this);
+    }
 }

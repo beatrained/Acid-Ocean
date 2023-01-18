@@ -43,7 +43,8 @@ public class PlayerCharacter : CharacterBase
 
     private void Start()
     {
-        SetStats(_scrPlayerCharacter);    // -> to loading state?
+        SetStats(_scrPlayerCharacter);    // -> load
+        ChangeState(ActorState.Wandering);
     }
     private void OnEnable()
     {

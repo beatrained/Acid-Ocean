@@ -1,8 +1,11 @@
 public enum ActorState
 {
-    Sleeping,
+    Spawning,
     Wandering,
+    Sleeping,
     AccuireTarget,
     Chasing,
     Attacking,
+    TakingDamage,
+    Dying,
 }

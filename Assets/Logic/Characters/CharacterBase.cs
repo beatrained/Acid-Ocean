@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,7 +27,7 @@ public abstract class CharacterBase : MonoBehaviour
     #region AI
 
     public bool CanIMove = false;
-    public GameObject TargetToMoveTo { get; set; }
+    public virtual GameObject TargetToMoveTo { get; set; }
     public ActorState CurrentState { get; private set; }
 
     public event UnityAction<ActorState> ActorStateChanged;
@@ -36,7 +37,7 @@ public abstract class CharacterBase : MonoBehaviour
         print("I can see " + target.gameObject.name);
     }
 
-    public void ChangeState(ActorState newState)
+    private protected void ChangeState(ActorState newState)
     {
         if (newState == CurrentState)
         {
@@ -54,7 +55,7 @@ public abstract class CharacterBase : MonoBehaviour
                 break;
 
             case ActorState.AccuireTarget:
-                HandleTarget();
+                HandleAccuireTarget();
                 break;
 
             case ActorState.Chasing:
@@ -64,8 +65,35 @@ public abstract class CharacterBase : MonoBehaviour
             case ActorState.Attacking:
                 HandleAttacking();
                 break;
+
+            case ActorState.TakingDamage:
+                HandleTakingDamage();
+                break;
+
+            case ActorState.Spawning:
+                HandleSpawning();
+                break;
+
+            case ActorState.Dying:
+                HandleDying();
+                break;
         }
         ActorStateChanged?.Invoke(CurrentState);
+    }
+
+    public virtual void HandleDying()
+    {
+        print("Dying...");
+    }
+
+    public virtual void HandleSpawning()
+    {
+        print("Spawning...");
+    }
+
+    public virtual void HandleTakingDamage()
+    {
+        print("Being hit!");
     }
 
     public virtual void HandleAttacking()
@@ -73,7 +101,7 @@ public abstract class CharacterBase : MonoBehaviour
         print("Attacking!");
     }
 
-    public virtual void HandleTarget()
+    public virtual void HandleAccuireTarget()
     {
         print("Target confirmed! What can I do with it?");
     }
