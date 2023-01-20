@@ -4,9 +4,13 @@ using UnityEngine.AI;
 
 public class EnemyFlowerBot : EnemyCharacter
 {
-    [SerializeField] private ScrEnemyCharacterMelee _scriptableEnemyCharacter;
     [SerializeField] private GameObject _flowerCap;
-    public ScrEnemyCharacterMelee ScriptableEnemyCharacter { get; private set; }
+
+    private CharStatsManagerEnemies _charStatsManagerEnemies;
+    public CharStatsManagerEnemies CharStatsManagerEnemies => _charStatsManagerEnemies;
+
+    //public CharStatsManagerEnemies CharStatsManagerEnemies { get; private set; }
+    //public ScrEnemyCharacterMelee ScriptableEnemyCharacter { get; private set; }
 
     private Animator _animator;
     private NavMeshAgent _agent;
@@ -16,14 +20,14 @@ public class EnemyFlowerBot : EnemyCharacter
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
-        _movingComponent = GetComponent<MovingComponent>();
-        _blades = GetComponentInChildren<EnemyFlowerBotBlades>();
-        _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();            // TODO How properly manage components in complex objects?
+        RunOnAwake();
+        _charStatsManagerEnemies = GetComponent<CharStatsManagerEnemies>();
+        _animator = GetComponent<Animator>();                               //
+        _agent = GetComponent<NavMeshAgent>();                              //
+        _movingComponent = GetComponent<MovingComponent>();                 //
+        _blades = GetComponentInChildren<EnemyFlowerBotBlades>();           //
+        _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();               // ASK How properly manage this in complex objects?
     }
-
-    // we need to calculate agent speed
 
     public override GameObject TargetToMoveTo
     {
@@ -45,18 +49,17 @@ public class EnemyFlowerBot : EnemyCharacter
     private void Update()
     {
         _animator.SetFloat("Speed", _agent.velocity.magnitude); // TODO another .magnitude here
-        //if (TargetToMoveTo == null)
-        //{
-        //    print("TargetToMoveTo is NULL");
-        //    ChangeState(ActorState.Sleeping);
-        //}
     }
 
     private void Start()
     {
         ChangeState(ActorState.Sleeping);
-        SetStats(_scriptableEnemyCharacter);
-        _agent.speed = CharStats.Speed;
+
+        _agent.speed = CharStatsManagerEnemies.CharBasicStats.Speed;
+
+
+        //DamageCanDealAmount = _scriptableEnemyCharacter.DamageRangeBase.x;
+        //print(DamageCanDealAmount + " = DamageCanDealAmount");
     }
 
     public override void HandleSleeping()
@@ -94,7 +97,12 @@ public class EnemyFlowerBot : EnemyCharacter
         }
     }
 
-    // there is a bug, this code need to be called only ONCE, not every time when actor enters Chasing state
+    public override void HandleDying()
+    {
+
+    }
+
+    // here is a bug, this code needs to be called only ONCE, not every time when actor enters Chasing state
     // TODO flowerCap bugfix
     private void RemoveFlowerCap()
     {

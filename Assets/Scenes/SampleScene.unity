@@ -16398,6 +16398,7 @@ GameObject:
   - component: {fileID: 551292194}
   - component: {fileID: 551292193}
   - component: {fileID: 551292196}
+  - component: {fileID: 551292197}
   m_Layer: 6
   m_Name: Cr_Player
   m_TagString: Player
@@ -16498,9 +16499,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea28b20693871124d85a184da2dd6417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterStatsManager: {fileID: 0}
   CanIMove: 0
-  _scrPlayerCharacter: {fileID: 11400000, guid: 7e38fe703858a224198edbd968288372,
-    type: 2}
 --- !u!114 &551292196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16513,6 +16513,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c13a8bf755ecd43b4b10a92742e9d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &551292197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551292189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f32e106fc51ac184d98faca4a46dbbaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharScriptable: {fileID: 11400000, guid: 7e38fe703858a224198edbd968288372, type: 2}
+  CharBasicStats:
+    CharName: 
+    Health: 0
+    Speed: 0
+    SpeedMlt: 0
+    Faction: 0
+  AiStats:
+    MinMaxDamage: {x: 0, y: 0}
+    VisionRange: 0
+    VisionAngle: 0
+    HearingRange: 0
 --- !u!1001 &551660364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20929,6 +20953,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spinningSpeed: 20
+--- !u!64 &697145122
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697145116}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4318469968047422790, guid: aa0170c1b2bad5a4197be2e6b54ecdd7, type: 3}
 --- !u!1001 &697220911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34307,9 +34345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2304cd5c3ec7004ca16199fbdde8704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterStatsManager: {fileID: 0}
   CanIMove: 0
-  _scriptableEnemyCharacter: {fileID: 11400000, guid: 65f0d8716cda5854f8f6f01d5deebb7d,
-    type: 2}
   _flowerCap: {fileID: 1249295820}
 --- !u!114 &1118496085
 MonoBehaviour:
@@ -34325,7 +34362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _detectionMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 65
 --- !u!195 &1118496086
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -34360,6 +34397,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd88e401be400e41b085e46985ec398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1118496096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118496079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed54e089b2a720f459d37a11f3c96ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharScriptable: {fileID: 11400000, guid: 65f0d8716cda5854f8f6f01d5deebb7d, type: 2}
+  CharBasicStats:
+    CharName: 
+    Health: 0
+    Speed: 0
+    SpeedMlt: 0
+    Faction: 0
+  AiStats:
+    MinMaxDamage: {x: 0, y: 0}
+    VisionRange: 0
+    VisionAngle: 0
+    HearingRange: 0
 --- !u!1001 &1119471324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67439,6 +67500,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1937799077548595415, guid: 9316466af7fe28447825dbdc5e9bdbe3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Damagable
       objectReference: {fileID: 0}
     - target: {fileID: 2306824347164198893, guid: 9316466af7fe28447825dbdc5e9bdbe3,
         type: 3}

@@ -3,15 +3,22 @@ using AcidOcean.Game;
 
 public class PlayerCharacter : CharacterBase
 {
-    private void Awake() => GameProcessManager.OnBeforeStateChanged += OnStateChanged;
     private void OnDestroy() => GameProcessManager.OnBeforeStateChanged -= OnStateChanged;
 
-    [SerializeField] private ScrPlayerCharacter _scrPlayerCharacter;
+    private CharStatsManagerPlayer _charStatManagerPlayer;
+    public CharStatsManagerPlayer ChaStatManagerPlayer => _charStatManagerPlayer;
+
+    CharStatsManagerPlayer _characterStatsManagerPlayer;
 
     private bool _isSpeedMultiplied = false;
     private float _speedStorage;
 
-
+    private void Awake()
+    { 
+        RunOnAwake();
+        GameProcessManager.OnBeforeStateChanged += OnStateChanged;
+        _characterStatsManagerPlayer = GetComponent<CharStatsManagerPlayer>();
+    }
     public bool IsSpeedMultiplied
     {
         get
@@ -22,12 +29,12 @@ public class PlayerCharacter : CharacterBase
         {
             if (value == true)
             {
-                _speedStorage = CharStats.Speed;
-                CharStats.Speed = _scrPlayerCharacter.SpeedOnFourLegs;
+                _speedStorage = CharacterStatsManager.CharBasicStats.Speed;
+                CharacterStatsManager.CharBasicStats.Speed = _characterStatsManagerPlayer.SpeedOnFourLegs;
                 
             } else
             {
-                CharStats.Speed = _speedStorage;
+                CharacterStatsManager.CharBasicStats.Speed = _speedStorage;
             }
             _isSpeedMultiplied = value;
         }
@@ -43,8 +50,7 @@ public class PlayerCharacter : CharacterBase
 
     private void Start()
     {
-        SetStats(_scrPlayerCharacter);    // -> load
-        ChangeState(ActorState.Wandering);
+        ChangeState(ActorState.Wandering); // у playera Wandering это обычное управление игроком
     }
     private void OnEnable()
     {
@@ -60,5 +66,16 @@ public class PlayerCharacter : CharacterBase
     private void EventManager_StandOnTwoLegs()
     {
         IsSpeedMultiplied = true;
+    }
+
+    public override void HandleTakingDamage()
+    {
+        _characterStatsManagerPlayer.TakeDamage(CharacterStatsManager.IncomingDamage);
+    }
+
+    public override void HandleDying()
+    {
+        base.HandleDying();
+        CanIMove = false;                       //AI only
     }
 }

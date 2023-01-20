@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30292b9e2dc6e64d98434354af047de, type: 3}
   m_Name: EnemySOMeleeFlower
   m_EditorClassIdentifier: 
-  Health: 10
-  Speed: 5
-  SpeedMlt: 1.3
-  Name: Flower Bot
-  _faction: 1
-  VisionRange: 15
-  VisionAngle: 50
-  HearingRange: 10
+  _basicStats:
+    CharName: FlowerBot
+    Health: 50
+    Speed: 3.4
+    SpeedMlt: 1.4
+    Faction: 1
+  _aiStats:
+    MinMaxDamage: {x: 10, y: 15}
+    VisionRange: 15
+    VisionAngle: 50
+    HearingRange: 15
+  _agroRange: 0

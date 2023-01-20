@@ -9,27 +9,28 @@ public class VisionComponent : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.matrix = transform.localToWorldMatrix;
-        StaticUtils.DrawWireArc(Vector3.zero, Vector3.forward, 100, 15, 10);  // TODO ??? scr. object integration
+        StaticUtils.DrawWireArc(Vector3.zero, Vector3.forward, 100, 15, 10);  // ASK ??? scr. object integration
         Gizmos.DrawWireSphere(Vector3.zero, 15);
     }
     #endregion gizmos
 
     [SerializeField] private LayerMask _detectionMask = ~0;
 
-    public CharacterBase _thisCharacter { get; private set; }
+    private CharacterBase _thisCharacter;
+    public CharacterBase ThisCharacter => _thisCharacter;
 
     private RaycastHit hitResult;
 
     private void Start()
     {
-        _thisCharacter = GetComponent<EnemyCharacter>() as EnemyFlowerBot;
+        _thisCharacter = GetComponent<CharacterBase>();
     }
 
     private void Update()
     {
         if (DetectableTargetManager.Instance.AllTargets.Count == 0)
         {
-            _thisCharacter.TargetToMoveTo = null;
+            ThisCharacter.TargetToMoveTo = null;
             return;
         }
 
@@ -42,30 +43,30 @@ public class VisionComponent : MonoBehaviour
                 continue;
             }
 
-            Vector3 dirToTarget = potentialTarget.transform.position - _thisCharacter.transform.position;
+            Vector3 dirToTarget = potentialTarget.transform.position - ThisCharacter.transform.position;
 
-            if (dirToTarget.magnitude > _thisCharacter.CharStats.VisionRange)
+            if (dirToTarget.magnitude > ThisCharacter.CharacterStatsManager.AiStats.VisionRange)
             {
                 continue;
             }
 
-            if (Vector3.Dot(dirToTarget.normalized, _thisCharacter.transform.forward) < _thisCharacter.CosVisionConeAngle())
+            if (Vector3.Dot(dirToTarget.normalized, ThisCharacter.transform.forward) < ThisCharacter.CosVisionConeAngle())
             {
                 continue;
             }
 
-            Debug.DrawLine(_thisCharacter.transform.position, potentialTarget.transform.position, Color.red);
+            Debug.DrawLine(ThisCharacter.transform.position, potentialTarget.transform.position, Color.red);
 
             // TODO create somewhere a list of detected targets and deal with it
             // Also, do not raycast every frame when target is visible. Maybe another coroutine will do the trick
-            if (Physics.Raycast(_thisCharacter.transform.position, dirToTarget.normalized, out hitResult,
-                                _thisCharacter.CharStats.VisionRange, _detectionMask, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(ThisCharacter.transform.position, dirToTarget.normalized, out hitResult,
+                                ThisCharacter.CharacterStatsManager.AiStats.VisionRange, _detectionMask, QueryTriggerInteraction.Collide))
             {
                 if (hitResult.collider.GetComponentInParent<DetectableTargetComponent>() == potentialTarget)
                 {
-                    if (_thisCharacter.TargetToMoveTo != potentialTarget.gameObject)
+                    if (ThisCharacter.TargetToMoveTo != potentialTarget.gameObject)
                     {
-                        _thisCharacter.TargetToMoveTo = potentialTarget.gameObject;
+                        ThisCharacter.TargetToMoveTo = potentialTarget.gameObject;
                         //_thisCharacter.ChangeState(ActorState.AccuireTarget);         // ChangeState must be called only inside actor class!!!!! done
                     }
                 }

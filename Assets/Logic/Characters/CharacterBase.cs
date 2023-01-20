@@ -1,30 +1,34 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
+using AcidOcean.Game;
 
+[RequireComponent(typeof(CharacterStatsManagerBase))]
 public abstract class CharacterBase : MonoBehaviour
 {
-    // TODO scriptable in base class
-    // [SerializeField] public ScrUnitBase ActorScriptableObject;
+    public CharacterStatsManagerBase CharacterStatsManager;
 
-    public ScrUnitBase CharStats { get; set; }
-
-    public virtual void SetStats(ScrUnitBase stats)
+    public void RunOnAwake()
     {
-        CharStats = stats;
+        LocalEventManager.HealthIsEqualsZero += LocalEventManager_HealthIsEqualsZero;
+        CharacterStatsManager = GetComponent<CharacterStatsManagerBase>();
     }
 
-    public virtual void ApplyDamage(float damage)
-    { } // temp mb in interface?
+    private void LocalEventManager_HealthIsEqualsZero(GameObject sended)
+    {
+        if (sended == gameObject)
+        {
+            ChangeState(ActorState.Dying);
+        }
+    }
 
     public float CosVisionConeAngle()
     {
-        return Mathf.Cos(CharStats.VisionAngle * Mathf.Deg2Rad);
+        return Mathf.Cos(CharacterStatsManager.AiStats.VisionAngle * Mathf.Deg2Rad);
     }
 
-    //===============================================
-
-    #region AI
+    //========================================================
+    // At some point player character will recieve AI controls
+    #region ==================AI===================
 
     public bool CanIMove = false;
     public virtual GameObject TargetToMoveTo { get; set; }
@@ -83,43 +87,43 @@ public abstract class CharacterBase : MonoBehaviour
 
     public virtual void HandleDying()
     {
-        print("Dying...");
+        print(gameObject.name + " is in ActorState.Dying state");
     }
 
     public virtual void HandleSpawning()
     {
-        print("Spawning...");
+        print(gameObject.name + " is in ActorState.Spawning state");
     }
 
     public virtual void HandleTakingDamage()
     {
-        print("Being hit!");
+        print(gameObject.name + " is in ActorState.TakingDamage state");
     }
 
     public virtual void HandleAttacking()
     {
-        print("Attacking!");
+        print(gameObject.name + " is in ActorState.Attacking state");
     }
 
     public virtual void HandleAccuireTarget()
     {
-        print("Target confirmed! What can I do with it?");
+        print(gameObject.name + " is in ActorState.AccuireTarget state");
     }
 
     public virtual void HandleChasing()
     {
-        print("Chasing someone!");
+        print(gameObject.name + " is in ActorState.Chasing state");
     }
 
     public virtual void HandleWandering()
     {
-        print("Wander");
+        print(gameObject.name + " is in ActorState.Wandering state");
     }
 
     public virtual void HandleSleeping()
     {
-        print("Sleep");
+        print(gameObject.name + " is in ActorState.Sleeping state");
     }
 
-    #endregion AI
+    #endregion ==================AI===================
 }

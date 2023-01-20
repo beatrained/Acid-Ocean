@@ -27,7 +27,7 @@ public class MovingComponent : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    public int MovementChoice       // TODO make List instead?
+    public int MovementChoice       // NOTE make List instead?
     {
         get
         {

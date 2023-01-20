@@ -1,140 +1,212 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="CharacterBase">
-    <Position X="0.5" Y="3.75" Width="2.75" />
+    <Position X="7" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAQQAAQgACDHACAAABACAAAEAAAAAAAAgAAAAgECA=</HashCode>
+      <HashCode>AAgAQQAAQgACDHAAAAABACAAAABAAAAAAAgAAAAgAGA=</HashCode>
       <FileName>Assets\Logic\Characters\CharacterBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EnemyCharacter" Collapsed="true">
-    <Position X="3.75" Y="5" Width="1.5" />
+    <Position X="6.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Characters\Enemies\EnemyCharacter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EnemyFlowerBot" Collapsed="true">
-    <Position X="6" Y="5" Width="1.5" />
+    <Position X="6.5" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIQBAAAAAiAAAnAABAABAAAAAAABACAAIEAAAAAgAUA=</HashCode>
+      <HashCode>AIQBAAAAAiAAAnBAAAABAAAAAAABAAAAIEAAAAAgAUA=</HashCode>
       <FileName>Assets\Logic\Characters\Enemies\EnemyFlowerBot.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerCharacter" Collapsed="true">
-    <Position X="3.75" Y="7.75" Width="1.5" />
+    <Position X="8.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAQBCAEAAAAAAAIAgAAAAAAAABAAAAAAAAICEA=</HashCode>
+      <HashCode>AAABAAAQRiAEAAAAAAAAAgAAAAAAAABAAAAAAAAICEA=</HashCode>
       <FileName>Assets\Logic\Characters\Player\PlayerCharacter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameProcessManager" Collapsed="true">
-    <Position X="6" Y="0.5" Width="1.5" />
+    <Position X="16.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAABAACAAAAAAAGAAAAAQAAAAAABAAAAAA=</HashCode>
       <FileName>Assets\Logic\Managers\GameProcessManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SB_Listener" Collapsed="true">
-    <Position X="6" Y="1.5" Width="1.5" />
+    <Position X="11.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Logic\Sandbox\SB_Listener.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SB_Trigger" Collapsed="true">
-    <Position X="9.5" Y="1.5" Width="1.5" />
+    <Position X="14.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAACAAAAACAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Sandbox\SB_Trigger.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScrEnemyCharacterMelee" Collapsed="true">
-    <Position X="0.5" Y="2" Width="2" />
+    <Position X="2.5" Y="5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Scriptables\ScrEnemyCharacterMelee.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScrPlayerCharacter" Collapsed="true">
-    <Position X="3.25" Y="2" Width="1.75" />
+    <Position X="4.75" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Scriptables\ScrPlayerCharacter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScrUnitBase" Collapsed="true">
-    <Position X="2" Y="0.5" Width="1.5" />
+    <Position X="4.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAACAAAAAAABAAAAAYBAAEAQAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAACAAAAAAAAAAgBAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AcidOcean.Gameplay.PlayerController" Collapsed="true">
-    <Position X="11.25" Y="0.5" Width="1.5" />
+    <Position X="16.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQUAAAAEgEABAACgAAAAQBAAAAAAAAAYgAAACgAAEA=</HashCode>
       <FileName>Assets\Logic\Characters\Player\PlayerController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Assets.Logic.Environment.Waves.WavesBehavior" Collapsed="true">
-    <Position X="6" Y="2.5" Width="1.5" />
+    <Position X="13" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEQEAAAABKAAAAAAgAAAAAAAAAQAAEAgAgAAAEAAAAA=</HashCode>
       <FileName>Assets\Logic\Environment\Waves\WavesBehavior.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Assets.Logic.Environment.Waves.WavesTileBehavior" Collapsed="true">
-    <Position X="7.75" Y="2.5" Width="1.5" />
+    <Position X="14.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAQEAAABACAAAAAgABAAAAAAQAAAACAAAAAAACAAAAA=</HashCode>
       <FileName>Assets\Logic\Environment\Waves\WavesTileBehavior.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AcidOcean.Game.GlobalEventManager" Collapsed="true">
-    <Position X="7.75" Y="0.5" Width="1.5" />
+    <Position X="11.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Managers\GlobalEventManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AcidOcean.Game.LocalEventManager" Collapsed="true">
-    <Position X="9.5" Y="0.5" Width="1.5" />
+    <Position X="13" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAQAAAAAAAAAAARAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAQAAAAAAAAAgARAAAAAAAAAAABAAAAAAAgA=</HashCode>
       <FileName>Assets\Logic\Managers\LocalEventManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AcidOcean.Sandbox.SB_Manager" Collapsed="true">
-    <Position X="7.75" Y="1.5" Width="1.5" />
+    <Position X="13" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Sandbox\SB_Manager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="StaticUtils" Collapsed="true">
-    <Position X="11.25" Y="1.5" Width="1.5" />
+    <Position X="16.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIAAAACAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Sandbox\StaticUtils.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="DetectableTargetComponent" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Logic\Characters\Detection\DetectableTargetComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DetectableTargetManager" Collapsed="true">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAABAAAAQAAAAAAAEEA=</HashCode>
+      <FileName>Assets\Logic\Characters\Detection\DetectableTargetManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VisionComponent" Collapsed="true">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQEQgAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Characters\Detection\VisionComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyFlowerBotBlades" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABYBAgQkAGAAAEAEAAAgAAAAAAAAAAAIAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Logic\Characters\Enemies\EnemyFlowerBotBlades.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MovingComponent" Collapsed="true">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMEBIhAAAgAAAAQAAAAAAAAAIQBAAAgAAAAACAAAAEA=</HashCode>
+      <FileName>Assets\Logic\Characters\MovingComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharacterStatsManagerBase" Collapsed="true">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACgAAAAEAAQAAIAAAAAAAAAAAAAAAAAAAgAAAEEA=</HashCode>
+      <FileName>Assets\Logic\Characters\CharacterStatsManagerBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CharStatsManagerEnemies" Collapsed="true">
+    <Position X="3.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAACAEA=</HashCode>
+      <FileName>Assets\Logic\Characters\CharStatsManagerEnemies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharStatsManagerPlayer" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Logic\Characters\CharStatsManagerPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IDamageable" Collapsed="true">
+    <Position X="11.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Interfaces\IDamageable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IDamaging" Collapsed="true">
+    <Position X="13" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Logic\Interfaces\IDamaging.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Enum Name="ActorState" Collapsed="true">
-    <Position X="6" Y="3.75" Width="1.5" />
+    <Position X="11.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAUAAAAAAAAAAAAAJAAAAAAAAAJAAEAAAAAAAAAACAA=</HashCode>
       <FileName>Assets\Logic\Characters\Enemies\EnumActorStates.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="GameState" Collapsed="true">
-    <Position X="9.5" Y="3.75" Width="1.5" />
+    <Position X="14.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAAAAAQAAAAAAAAAAQAAAAAAAMAAAAAAAAAAE=</HashCode>
       <FileName>Assets\Logic\Managers\GameProcessManager.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Faction" Collapsed="true">
-    <Position X="7.75" Y="3.75" Width="1.5" />
+    <Position X="13" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\Logic\Scriptables\ScrUnitBase.cs</FileName>
