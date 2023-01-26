@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IDamaging
 {
+    float KnockbackStrength { get; set; }
+
     float DamageAmount { get; set; }
     void DealDamage(float amount);
 }

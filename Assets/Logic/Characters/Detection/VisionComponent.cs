@@ -21,7 +21,7 @@ public class VisionComponent : MonoBehaviour
 
     private RaycastHit hitResult;
 
-    private void Start()
+    private void Awake()
     {
         _thisCharacter = GetComponent<CharacterBase>();
     }
@@ -67,7 +67,6 @@ public class VisionComponent : MonoBehaviour
                     if (ThisCharacter.TargetToMoveTo != potentialTarget.gameObject)
                     {
                         ThisCharacter.TargetToMoveTo = potentialTarget.gameObject;
-                        //_thisCharacter.ChangeState(ActorState.AccuireTarget);         // ChangeState must be called only inside actor class!!!!! done
                     }
                 }
             }

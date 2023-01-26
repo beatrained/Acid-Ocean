@@ -7,5 +7,6 @@ public enum ActorState
     Chasing,
     Attacking,
     TakingDamage,
+    Stunned,
     Dying,
 }

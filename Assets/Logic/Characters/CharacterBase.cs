@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.Events;
 using AcidOcean.Game;
+using System;
 
 [RequireComponent(typeof(CharacterStatsManagerBase))]
 public abstract class CharacterBase : MonoBehaviour
 {
-    public CharacterStatsManagerBase CharacterStatsManager;
+    [HideInInspector] public CharacterStatsManagerBase CharacterStatsManager;
 
     public void RunOnAwake()
     {
-        LocalEventManager.HealthIsEqualsZero += LocalEventManager_HealthIsEqualsZero;
+        GlobalEventManager.HealthIsEqualsZero += LocalEventManager_HealthIsEqualsZero;
         CharacterStatsManager = GetComponent<CharacterStatsManagerBase>();
     }
 
@@ -26,7 +27,6 @@ public abstract class CharacterBase : MonoBehaviour
         return Mathf.Cos(CharacterStatsManager.AiStats.VisionAngle * Mathf.Deg2Rad);
     }
 
-    //========================================================
     // At some point player character will recieve AI controls
     #region ==================AI===================
 
@@ -81,8 +81,17 @@ public abstract class CharacterBase : MonoBehaviour
             case ActorState.Dying:
                 HandleDying();
                 break;
+
+            case ActorState.Stunned:
+                HandleStunned();
+                break;
         }
         ActorStateChanged?.Invoke(CurrentState);
+    }
+
+    public virtual void HandleStunned()
+    {
+        print(gameObject.name + " is in ActorState.Stunned state");
     }
 
     public virtual void HandleDying()

@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/MenuButtons.uss?fileID=7433441132597879392&amp;guid=ade6a7f8411e79e4e9f356d364e17b80&amp;type=3#MenuButtons" />
+    <ui:VisualElement name="Background" style="flex-grow: 1; flex-direction: row;">
+        <ui:VisualElement name="MenuSidebar" style="opacity: 0.82; background-color: rgb(65, 65, 65); right: auto; margin-right: 0; width: 30%; align-items: stretch; flex-direction: column-reverse; justify-content: flex-start; margin-bottom: 0; padding-bottom: 28px; flex-basis: auto;">
+            <ui:Button text="Exit" display-tooltip-when-elided="true" name="ExitButton" class="menu-buttons-main" style="white-space: nowrap; -unity-text-align: middle-center;" />
+            <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="menu-buttons-main" />
+            <ui:Button text="New Game" display-tooltip-when-elided="true" name="NewGameButton" class="menu-buttons-main" style="transform-origin: center; -unity-background-scale-mode: stretch-to-fill;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

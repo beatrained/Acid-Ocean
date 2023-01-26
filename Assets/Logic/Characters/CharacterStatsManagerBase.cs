@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using AcidOcean.Game;
 
 public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
 {
-    CharacterBase _thisCharacter; //  //  //
+    CharacterBase _thisCharacter;
 
     [SerializeField] public ScrUnitBase CharScriptable;
-    [HideInInspector] public BasicStats CharBasicStats;                         // ASK why public?
+
+    [HideInInspector] public BasicStats CharBasicStats;
     [HideInInspector] public AIStats AiStats;
 
     public virtual void LoadStats(ScrUnitBase stats)
@@ -34,7 +32,7 @@ public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
         CharBasicStats.Health -= amount;
         if (CharBasicStats.Health <= 0)
         {
-            LocalEventManager.HealthIsZeroved(this.gameObject);
+            GlobalEventManager.HealthIsZeroved(this.gameObject);
         }
         print("Health = " + CharBasicStats.Health);
     }

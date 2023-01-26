@@ -12,14 +12,12 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
 
     CharacterStatsManagerBase _characterStatsManager; //
 
-    public float DamageAmount { get; set; }
 
     private void Awake()
     {
         _thisCharacter = GetComponentInParent<EnemyFlowerBot>();
         _bladesAnimator = GetComponent<Animator>();
         _bladesCollider = GetComponent<MeshCollider>();
-
         _characterStatsManager = GetComponentInParent<CharacterStatsManagerBase>(); //
     }
 
@@ -63,22 +61,23 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
 
     private void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag != "Damagamble" && col.gameObject.tag != "Player")
-        {
-            print("collided with some shit.");
-            return;
-        }
         IDamageable dam = col.gameObject.GetComponent<IDamageable>();
+        
         if (dam != null)
         {
-            print("PLAYER!!! collided with + " + col.gameObject.name);
+            print("Blades collided with + " + col.gameObject.name + " and deal damage");
             GlobalEventManager.PlayerDamaged(_thisCharacter.CharacterStatsManager.AiStats.MinMaxDamage.x);
+            // TODO block check, invert knockback direction if necessary
+            Vector3 dirToTarget = (col.transform.position - this.transform.position).normalized;
+            ObjectsPositionManipulator
+                .KnockbackActor(col.gameObject, dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength);
         }
-        else print("IDamaging is null");
     }
 
     #region IDamaging
-    public void DealDamage(float amount)
+    public float DamageAmount { get; set; }
+    public float KnockbackStrength { get; set; }
+    public void DealDamage(float amount)   // TODO deal with interface IDamaging
     {
         print("Blade hurts");
     }

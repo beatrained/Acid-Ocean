@@ -8,7 +8,7 @@ public class PlayerCharacter : CharacterBase
     private CharStatsManagerPlayer _charStatManagerPlayer;
     public CharStatsManagerPlayer ChaStatManagerPlayer => _charStatManagerPlayer;
 
-    CharStatsManagerPlayer _characterStatsManagerPlayer;
+    //CharStatsManagerPlayer _characterStatsManagerPlayer;
 
     private bool _isSpeedMultiplied = false;
     private float _speedStorage;
@@ -17,7 +17,7 @@ public class PlayerCharacter : CharacterBase
     { 
         RunOnAwake();
         GameProcessManager.OnBeforeStateChanged += OnStateChanged;
-        _characterStatsManagerPlayer = GetComponent<CharStatsManagerPlayer>();
+        _charStatManagerPlayer = GetComponent<CharStatsManagerPlayer>();
     }
     public bool IsSpeedMultiplied
     {
@@ -30,7 +30,7 @@ public class PlayerCharacter : CharacterBase
             if (value == true)
             {
                 _speedStorage = CharacterStatsManager.CharBasicStats.Speed;
-                CharacterStatsManager.CharBasicStats.Speed = _characterStatsManagerPlayer.SpeedOnFourLegs;
+                CharacterStatsManager.CharBasicStats.Speed = _charStatManagerPlayer.SpeedOnFourLegs;
                 
             } else
             {
@@ -70,7 +70,7 @@ public class PlayerCharacter : CharacterBase
 
     public override void HandleTakingDamage()
     {
-        _characterStatsManagerPlayer.TakeDamage(CharacterStatsManager.IncomingDamage);
+        _charStatManagerPlayer.TakeDamage(CharacterStatsManager.IncomingDamage);
     }
 
     public override void HandleDying()
