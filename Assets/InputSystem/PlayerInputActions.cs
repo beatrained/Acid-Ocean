@@ -53,6 +53,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""680e189d-9c0f-4580-932e-4d952082e348"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b531d54-5841-41db-b8b4-f59d7d6ec54c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +150,50 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""ChangePose"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""655052d0-f53c-4ad6-9edd-f21255bdd13e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardPC"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a50e35a6-44d6-4d1c-b536-d63104b89156"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardPC"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fabd250-b313-4a61-bdf8-c97b547c219d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardPC"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bd21760-a9bb-4879-8a10-e1ab042f2217"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardPC"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -145,6 +207,11 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
                 }
             ]
         }
@@ -155,6 +222,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_PlayerBasicMovement_Jump = m_PlayerBasicMovement.FindAction("Jump", throwIfNotFound: true);
         m_PlayerBasicMovement_Movement = m_PlayerBasicMovement.FindAction("Movement", throwIfNotFound: true);
         m_PlayerBasicMovement_ChangePose = m_PlayerBasicMovement.FindAction("ChangePose", throwIfNotFound: true);
+        m_PlayerBasicMovement_Attack = m_PlayerBasicMovement.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerBasicMovement_Block = m_PlayerBasicMovement.FindAction("Block", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -217,6 +286,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerBasicMovement_Jump;
     private readonly InputAction m_PlayerBasicMovement_Movement;
     private readonly InputAction m_PlayerBasicMovement_ChangePose;
+    private readonly InputAction m_PlayerBasicMovement_Attack;
+    private readonly InputAction m_PlayerBasicMovement_Block;
     public struct PlayerBasicMovementActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -224,6 +295,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerBasicMovement_Jump;
         public InputAction @Movement => m_Wrapper.m_PlayerBasicMovement_Movement;
         public InputAction @ChangePose => m_Wrapper.m_PlayerBasicMovement_ChangePose;
+        public InputAction @Attack => m_Wrapper.m_PlayerBasicMovement_Attack;
+        public InputAction @Block => m_Wrapper.m_PlayerBasicMovement_Block;
         public InputActionMap Get() { return m_Wrapper.m_PlayerBasicMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -242,6 +315,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @ChangePose.started -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnChangePose;
                 @ChangePose.performed -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnChangePose;
                 @ChangePose.canceled -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnChangePose;
+                @Attack.started -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnAttack;
+                @Block.started -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -255,6 +334,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @ChangePose.started += instance.OnChangePose;
                 @ChangePose.performed += instance.OnChangePose;
                 @ChangePose.canceled += instance.OnChangePose;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -273,5 +358,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnChangePose(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
 }

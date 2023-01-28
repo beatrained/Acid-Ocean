@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,24 +10,23 @@ public class EnemyFlowerBot : EnemyCharacter
     private CharStatsManagerEnemies _charStatsManagerEnemies;
     public CharStatsManagerEnemies CharStatsManagerEnemies => _charStatsManagerEnemies;
 
-    //public CharStatsManagerEnemies CharStatsManagerEnemies { get; private set; }
-    //public ScrEnemyCharacterMelee ScriptableEnemyCharacter { get; private set; }
-
     private Animator _animator;
     private NavMeshAgent _agent;
     private Rigidbody _rigidbodyCap;
     private MovingComponent _movingComponent;
     private EnemyFlowerBotBlades _blades;
 
+    private bool _capRemoved = false;
+
     private void Awake()
     {
         RunOnAwake();
         _charStatsManagerEnemies = GetComponent<CharStatsManagerEnemies>();
-        _animator = GetComponent<Animator>();                               //
-        _agent = GetComponent<NavMeshAgent>();                              //
-        _movingComponent = GetComponent<MovingComponent>();                 //
-        _blades = GetComponentInChildren<EnemyFlowerBotBlades>();           //
-        _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();               // ASK How properly manage this in complex objects?
+        _animator = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
+        _movingComponent = GetComponent<MovingComponent>();
+        _blades = GetComponentInChildren<EnemyFlowerBotBlades>();
+        _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();
     }
 
     public override GameObject TargetToMoveTo
@@ -46,6 +46,11 @@ public class EnemyFlowerBot : EnemyCharacter
         }
     }
 
+    public void StunMePlease()
+    {
+        ChangeState(ActorState.Stunned);
+    }
+
     private void Update()
     {
         _animator.SetFloat("Speed", _agent.velocity.magnitude); // TODO another .magnitude here
@@ -54,38 +59,44 @@ public class EnemyFlowerBot : EnemyCharacter
     private void Start()
     {
         ChangeState(ActorState.Sleeping);
-
         _agent.speed = CharStatsManagerEnemies.CharBasicStats.Speed;
-
-
-        //DamageCanDealAmount = _scriptableEnemyCharacter.DamageRangeBase.x;
-        //print(DamageCanDealAmount + " = DamageCanDealAmount");
     }
 
     public override void HandleSleeping()
     {
-        _blades.SpinBlades = false;
-        _blades.OpenOrCloseBlades(false);
         CanIMove = false;
+        _blades.SpinBlades = false;
+        _blades.UnpackBlades(false);
         _movingComponent.MovementChoice = 2;
-        print("flower bot is SLEEPING");
     }
 
     public override void HandleChasing()
     {
-        print("flower bot is now CHASING " + TargetToMoveTo.name);
-        StartCoroutine(ChasingSequence());
+        CanIMove = true;
+        if (TargetToMoveTo == null)
+        {
+            ChangeState(ActorState.Sleeping);
+        } 
+        else
+        {
+            StartCoroutine(AsleepSequence());
+        }
     }
 
-    private IEnumerator ChasingSequence()
+    public override void HandleStunned()
     {
-        yield return new WaitForSeconds(0.2f);
-        RemoveFlowerCap();
-        CanIMove = true;
-        _movingComponent.MovementChoice = 0;
-        _blades.OpenOrCloseBlades(true);
-        yield return new WaitForSeconds(0.8f);
-        _blades.SpinBlades = true;
+        StartCoroutine(StunnedSequence());
+    }
+
+    private IEnumerator StunnedSequence()
+    {
+        CanIMove = false;
+        _blades.SpinBlades = false;
+        // _blades.UnpackBlades(false);
+        _animator.SetBool("Stunned", true);
+        yield return new WaitForSeconds(1f);  // TODO actor stun time parameter
+        _animator.SetBool("Stunned", false);
+        ChangeState(ActorState.Chasing);
     }
 
     public override void HandleAccuireTarget()
@@ -96,21 +107,38 @@ public class EnemyFlowerBot : EnemyCharacter
             ChangeState(ActorState.Chasing);
         }
     }
+    private IEnumerator AsleepSequence()
+    {
+        yield return new WaitForSeconds(0.2f);
+        RemoveFlowerCap();
+        _movingComponent.MovementChoice = 0;
+        _blades.UnpackBlades(true);
+        yield return new WaitForSeconds(1f);
+        _blades.SpinBlades = true;
+    }
 
     public override void HandleDying()
     {
 
     }
 
-    // here is a bug, this code needs to be called only ONCE, not every time when actor enters Chasing state
-    // TODO flowerCap bugfix
     private void RemoveFlowerCap()
     {
+        if (_capRemoved == true)
+        {
+            return;
+        }
+        _capRemoved = true;
         _rigidbodyCap.isKinematic = false;
         _rigidbodyCap.GetComponent<BoxCollider>().enabled = true;
         _rigidbodyCap.AddForce(StaticUtils.RandomVector3(0, 1, 8, 12, 0, 1), ForceMode.Impulse);
         _rigidbodyCap.AddTorque(StaticUtils.RandomVector3(0, 0.5f, 0, 0.5f, 0, 0.5f), ForceMode.Impulse);
-        _flowerCap.transform.parent = null;
+        _flowerCap.transform.parent = null; // TODO an idea. parent all shit like this to an empty object, then deal with it
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     private void OnDestroy()

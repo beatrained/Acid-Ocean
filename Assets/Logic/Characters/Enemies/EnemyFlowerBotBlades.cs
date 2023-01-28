@@ -26,7 +26,7 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
         //DamageAmount = _thisCharacter.DamageCanDealAmount;
     }
 
-    public void OpenOrCloseBlades(bool isOpened)
+    public void UnpackBlades(bool isOpened)
     {
         if (isOpened)
         {
@@ -61,25 +61,31 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
 
     private void OnCollisionEnter(Collision col)
     {
+        // TODO (targets system). Temporary solution:
+        if (col.gameObject.name != "Cr_Player")
+        {
+            return;
+        }
+
         IDamageable dam = col.gameObject.GetComponent<IDamageable>();
-        
+        //Animator _targetAnimator = col.gameObject.GetComponent<Animator>();
+        bool isBlocked = col.gameObject.GetComponent<Animator>().GetBool("Block");
+
         if (dam != null)
         {
-            print("Blades collided with + " + col.gameObject.name + " and deal damage");
-            GlobalEventManager.PlayerDamaged(_thisCharacter.CharacterStatsManager.AiStats.MinMaxDamage.x);
-            // TODO block check, invert knockback direction if necessary
-            Vector3 dirToTarget = (col.transform.position - this.transform.position).normalized;
-            ObjectsPositionManipulator
-                .KnockbackActor(col.gameObject, dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength);
+            Vector3 dirToTarget = StaticUtils.DirToTarget(col.transform.position, this.transform.position);
+            if (isBlocked)
+            {
+                ObjectsPositionManipulator
+                .KnockbackActor(_thisCharacter.gameObject, -dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength * 0.8f);
+                _thisCharacter.StunMePlease();
+            }
+            else
+            {
+                GlobalEventManager.PlayerDamaged(_thisCharacter.CharacterStatsManager.AiStats.MinMaxDamage.x);
+                ObjectsPositionManipulator
+                    .KnockbackActor(col.gameObject, dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength);
+            }
         }
     }
-
-    #region IDamaging
-    public float DamageAmount { get; set; }
-    public float KnockbackStrength { get; set; }
-    public void DealDamage(float amount)   // TODO deal with interface IDamaging
-    {
-        print("Blade hurts");
-    }
-    #endregion IDamaging
 }

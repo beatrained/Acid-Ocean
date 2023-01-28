@@ -1,4 +1,5 @@
 using AcidOcean.Game;
+using UnityEngine;
 
 public class CharStatsManagerPlayer : CharacterStatsManagerBase
 {
@@ -18,6 +19,7 @@ public class CharStatsManagerPlayer : CharacterStatsManagerBase
 
     private void GlobalEventManager_PlayerRecieveDamage(float incomingDamage)
     {
+        gameObject.GetComponent<Animator>().SetTrigger("TakingHit");
         _lastHitTakenDamageAmount = incomingDamage;
         TakeDamage(_lastHitTakenDamageAmount);
     }

@@ -17,6 +17,7 @@ MonoBehaviour:
     Health: 100
     Speed: 15
     SpeedMlt: 1.4
+    KnockbackStrength: 0
     Faction: 0
   _aiStats:
     MinMaxDamage: {x: 0, y: 0}

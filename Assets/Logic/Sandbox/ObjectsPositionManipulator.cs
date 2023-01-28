@@ -7,8 +7,8 @@ using UnityEngine;
 public static class ObjectsPositionManipulator
 {
     // TODO some knockback resistance will be nice +++
-    public static void KnockbackActor(GameObject target, Vector3 forceAmount)
+    public static void KnockbackActor(GameObject target, Vector3 force)
     {
-        target.GetComponent<Rigidbody>().AddForce(forceAmount, ForceMode.Impulse);
+        target.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
     }
 }

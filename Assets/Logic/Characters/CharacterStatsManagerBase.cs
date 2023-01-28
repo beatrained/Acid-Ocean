@@ -18,6 +18,7 @@ public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
 
     public float IncomingDamage { get; set; }
 
+    // ASK Awake
     public void RunOnAwake()
     {
         LoadStats(CharScriptable);

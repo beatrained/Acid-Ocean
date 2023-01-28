@@ -14,7 +14,7 @@ public class MovingComponent : MonoBehaviour
 
     private Vector3 _tempTargetPoint;
     private Vector3 _offsetToTarget;
-    private bool _step = true;
+    private bool _coroutineLock = true;
 
     private delegate IEnumerator MovementDecisions();
 
@@ -27,7 +27,7 @@ public class MovingComponent : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    public int MovementChoice       // NOTE make List instead?
+    public int MovementChoice       // NOTE make List instead
     {
         get
         {
@@ -52,11 +52,23 @@ public class MovingComponent : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (_thisCharacter.CanIMove == true && _thisCharacter.TargetToMoveTo != null)
+
+        print(_thisCharacter.CanIMove);
+        if (_thisCharacter.CanIMove == false)
         {
-            if (_step)
+            MovementChoice = 2;                     // ммм хрень в апдейте
+            if (_coroutineLock)
+            {
+                StartCoroutine(WhatToDo());
+            }
+            return;
+        }
+
+        if (_thisCharacter.TargetToMoveTo != null)
+        {
+            if (_coroutineLock)
             {
                 StartCoroutine(WhatToDo());
             }
@@ -65,9 +77,10 @@ public class MovingComponent : MonoBehaviour
     }
 
     // go towards target on some distance and hold position (shooting distance for example)
+    // и вот ещё, это мусор, там у агента есть вариант указать как близко приближаться к цели
     private IEnumerator StayAtDistance()
     {
-        _step = false;
+        _coroutineLock = false;
         _tempTargetPoint = _thisCharacter.TargetToMoveTo.transform.position;
         if ((transform.position - _tempTargetPoint).sqrMagnitude > 40)             // TODO remove magic numbers
         {
@@ -79,39 +92,42 @@ public class MovingComponent : MonoBehaviour
             _agent.isStopped = true;
         }
         yield return null;
-        _step = true;
+        _coroutineLock = true;
     }
 
     private IEnumerator StayAlertAndDoNothing()
     {
+        _coroutineLock = false;
         print("really? " + _thisCharacter.gameObject.name + " reports that can see target but stay at place");
+        _agent.isStopped = true;
         yield return new WaitForSeconds(1);
+        _coroutineLock = true;
     }
 
     // Go towards target in melee range
     private IEnumerator ComeCloserWithOffset()
     {
         _agent.isStopped = false;
-        _step = false;
-        _offsetToTarget = StaticUtils.RandomVector3(0.5f, 2, 0, 0, 0.5f, 2);
+        _coroutineLock = false;
+        _offsetToTarget = StaticUtils.RandomVector3(0.5f, 1, 0, 0, 0.5f, 1);
         _tempTargetPoint = _thisCharacter.TargetToMoveTo.transform.position + _offsetToTarget;
         _agent.destination = _tempTargetPoint;
         yield return new WaitForSeconds(1);
         _agent.isStopped = true;
         yield return new WaitForSeconds(0.5f);
-        _step = true;
+        _coroutineLock = true;
     }
 
     // Go towards target in melee range, another variant, slower, jerky movements 
     private IEnumerator ComeCloserDoomStyle()
     {
         _agent.isStopped = false;
-        _step = false;
+        _coroutineLock = false;
         _offsetToTarget = StaticUtils.RandomVector3(2,4,0,0,2,4);
         _tempTargetPoint = (transform.position + (5 * (_thisCharacter.TargetToMoveTo.transform.position - transform.position).normalized)) + _offsetToTarget;
         _agent.destination = _tempTargetPoint;
         yield return new WaitForSeconds(0.7f);
-        _step = true;
+        _coroutineLock = true;
         yield return new WaitForSeconds(0.3f);
     }
 

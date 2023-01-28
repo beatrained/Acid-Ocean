@@ -36,11 +36,16 @@ public static class StaticUtils
         return new Vector3(x, y, z);
     }
 
-    static float GetAnglesFromDir(Vector3 position, Vector3 dir)
+    public static float GetAnglesFromDir(Vector3 position, Vector3 dir)
     {
         Vector3 forwardLimitPos = position + dir;
         float srcAngles = Mathf.Rad2Deg * Mathf.Atan2(forwardLimitPos.z - position.z, forwardLimitPos.x - position.x);
 
         return srcAngles;
+    }
+
+    public static Vector3 DirToTarget(Vector3 targetPos, Vector3 currentPos)
+    {
+        return (targetPos - currentPos).normalized;
     }
 }
