@@ -43,17 +43,15 @@ public class GameProcessManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log($"New state: {newState}");
+        Debug.Log($"New Game State: {newState}");
     }
 
     private void HandlePauseMenu()
     {
-        print("pause state");
     }
 
     private void HandleRunning()
     {
-        print("running state");
     }
 }
 

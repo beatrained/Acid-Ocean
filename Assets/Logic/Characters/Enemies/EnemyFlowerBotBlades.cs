@@ -7,6 +7,8 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
     private Animator _bladesAnimator;
     EnemyFlowerBot _thisCharacter;
     public bool SpinBlades { get; set; }
+    public float DamageAmount { get; set; }
+
     [SerializeField] float _spinningSpeed = 20;
     MeshCollider _bladesCollider;
 
@@ -36,7 +38,7 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
         else if (!isOpened)
         {
             _bladesAnimator.SetBool("Release Blades", false);
-            StartCoroutine(EnableCollision(1f, false));
+            StartCoroutine(EnableCollision(0.2f, false));
         }
     }
 
@@ -66,11 +68,9 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
         {
             return;
         }
-
+        // TODO more universal hit method
         IDamageable dam = col.gameObject.GetComponent<IDamageable>();
-        //Animator _targetAnimator = col.gameObject.GetComponent<Animator>();
         bool isBlocked = col.gameObject.GetComponent<Animator>().GetBool("Block");
-
         if (dam != null)
         {
             Vector3 dirToTarget = StaticUtils.DirToTarget(col.transform.position, this.transform.position);
@@ -78,11 +78,12 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
             {
                 ObjectsPositionManipulator
                 .KnockbackActor(_thisCharacter.gameObject, -dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength * 0.8f);
-                _thisCharacter.StunMePlease();
+                _thisCharacter.StunMePlease(2);
             }
             else
             {
-                GlobalEventManager.PlayerDamaged(_thisCharacter.CharacterStatsManager.AiStats.MinMaxDamage.x);
+                GlobalEventManager.PlayerDamaged(Random
+                    .Range(_thisCharacter.CharacterStatsManager.AiStats.MinMaxDamage.x, _thisCharacter.CharacterStatsManager.AiStats.MinMaxDamage.y));
                 ObjectsPositionManipulator
                     .KnockbackActor(col.gameObject, dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength);
             }

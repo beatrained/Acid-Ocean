@@ -15,13 +15,13 @@ MonoBehaviour:
   _basicStats:
     CharName: PlayerMecha
     Health: 100
-    Speed: 15
+    Speed: 2
     SpeedMlt: 1.4
-    KnockbackStrength: 0
+    KnockbackStrength: 20
     Faction: 0
   _aiStats:
-    MinMaxDamage: {x: 0, y: 0}
+    MinMaxDamage: {x: 10, y: 20}
     VisionRange: 15
     VisionAngle: 90
     HearingRange: 20
-  _speedOnFourLegs: 21
+  _speedOnFourLegs: 6

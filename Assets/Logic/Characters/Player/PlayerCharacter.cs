@@ -10,34 +10,11 @@ public class PlayerCharacter : CharacterBase
 
     //CharStatsManagerPlayer _characterStatsManagerPlayer;
 
-    private bool _isSpeedMultiplied = false;
-    private float _speedStorage;
-
     private void Awake()
     { 
         RunOnAwake();
         GameProcessManager.OnBeforeStateChanged += OnStateChanged;
         _charStatManagerPlayer = GetComponent<CharStatsManagerPlayer>();
-    }
-    public bool IsSpeedMultiplied
-    {
-        get
-        {
-            return _isSpeedMultiplied;
-        }
-        set
-        {
-            if (value == true)
-            {
-                _speedStorage = CharacterStatsManager.CharBasicStats.Speed;
-                CharacterStatsManager.CharBasicStats.Speed = _charStatManagerPlayer.SpeedOnFourLegs;
-                
-            } else
-            {
-                CharacterStatsManager.CharBasicStats.Speed = _speedStorage;
-            }
-            _isSpeedMultiplied = value;
-        }
     }
 
     private void OnStateChanged(GameState state)
@@ -51,21 +28,6 @@ public class PlayerCharacter : CharacterBase
     private void Start()
     {
         ChangeState(ActorState.Wandering); // у playera Wandering это обычное управление игроком
-    }
-    private void OnEnable()
-    {
-        LocalEventManager.StandOnTwoLegs += EventManager_StandOnTwoLegs;
-        LocalEventManager.StandOnFourLegs += EventManager_StandOnFourLegs;
-    }
-
-    private void EventManager_StandOnFourLegs()
-    {
-        IsSpeedMultiplied = false;
-    }
-
-    private void EventManager_StandOnTwoLegs()
-    {
-        IsSpeedMultiplied = true;
     }
 
     public override void HandleTakingDamage()

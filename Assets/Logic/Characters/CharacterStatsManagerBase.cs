@@ -35,7 +35,6 @@ public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
         {
             GlobalEventManager.HealthIsZeroved(this.gameObject);
         }
-        print("Health = " + CharBasicStats.Health);
     }
     #endregion IDamageable
 }

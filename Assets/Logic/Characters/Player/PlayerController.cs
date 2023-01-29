@@ -16,13 +16,32 @@ namespace AcidOcean.Gameplay
         private Vector2 _inputVector;
         private Vector3 _playerLookDir;
         private Vector3 _force;
-        private float _playerSpeed;
+        private float _currentSpeed;
+        
         [SerializeField][Range(0, 1)] private float _playerRotationSpeed = 0.1f;
         private bool _disableControls = false;
 
+        public float PlayerSpeed 
+        { 
+            get
+            {
+                if (_animator.GetBool("OnTwoLegs"))
+                {
+                    return _charStatsManagerPlayer.CharBasicStats.Speed;
+                }
+                else
+                {
+                    return _charStatsManagerPlayer.SpeedOnFourLegs;
+                }
+            } 
+            set { _charStatsManagerPlayer.CharBasicStats.Speed = value; }
+        }
+
         [SerializeField] private GameObject _axeInHands;        // TODO change to static links
         [SerializeField] private GameObject _turretOnTheBack;
-        [SerializeField] private Animator _axeAnimator;         // ASK proper way to get child things
+        [SerializeField] private Animator _axeAnimator;
+
+        private BigBotAxe _bigBotAxe;
 
 
         private void Awake()
@@ -39,13 +58,14 @@ namespace AcidOcean.Gameplay
             _playerInputActions.PlayerBasicMovement.Block.started += Block_started;
             _playerInputActions.PlayerBasicMovement.Block.canceled += Block_canceled;
 
-            _playerSpeed = _charStatsManagerPlayer.SpeedOnFourLegs;
-    }
+            _currentSpeed = PlayerSpeed;
+            _bigBotAxe = _axeInHands.GetComponent<BigBotAxe>();
+        }
 
         private void FixedUpdate()
         {
             _inputVector = _playerInputActions.PlayerBasicMovement.Movement.ReadValue<Vector2>();
-            _force = _playerLookDir * _playerSpeed;
+            _force = _playerLookDir * _currentSpeed;
             _rigidbody.AddForce(_force, ForceMode.Force);
             _animator.SetFloat("Speed", _force.magnitude);   // TODO get rid of .magnitude?
         }
@@ -71,7 +91,7 @@ namespace AcidOcean.Gameplay
 
         void UpdateStats()
         {
-            _playerSpeed = _playerCharacter.CharacterStatsManager.CharBasicStats.Speed;
+            _currentSpeed = PlayerSpeed;
         }
 
         private void Attack_performed(InputAction.CallbackContext context)
@@ -80,47 +100,44 @@ namespace AcidOcean.Gameplay
             {
                 _animator.SetTrigger("AttackTrigger");    // mmmmmmm we definetely need script on axe itself, because of the collider on off
             }
-
         }
 
         private void Block_started(InputAction.CallbackContext obj)
         {
             _animator.SetBool("Block", true);
+            _bigBotAxe.IsShieldEnabled = true;
         }
 
         private void Block_canceled(InputAction.CallbackContext obj)
         {
             _animator.SetBool("Block", false);
+            _bigBotAxe.IsShieldEnabled = false;
         }
 
         private void ChangePose_performed(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                UpdateStats();
                 if (_animator.GetBool("OnTwoLegs") == false)
                 {
-                    LocalEventManager.StayOnTwo();
                     _animator.SetBool("OnTwoLegs", true);
-                    _playerSpeed = _charStatsManagerPlayer.CharBasicStats.Speed;
                 }
                 else
                 {
-                    LocalEventManager.StayOnFour();
                     _animator.SetBool("OnTwoLegs", false);
-                    _playerSpeed = _charStatsManagerPlayer.SpeedOnFourLegs;
                 }
+                UpdateStats();
             }
         }
 
         // Animation Event on player character StandUp and WeaponAttackONE-mod1 animation clips
-        public void FreezePlayer()
+        public void _FreezePlayer()
         {
             _disableControls = !_disableControls;
         }
 
         // Animation Event on player character WeaponEquipX-mod1 animation clip
-        public void ShowAxeInHands()
+        public void _ShowAxeInHands()
         {
             if (!_axeInHands.activeSelf)
             {
@@ -135,7 +152,7 @@ namespace AcidOcean.Gameplay
         }
 
         // Animation Event on player character WeaponEquipX-mod1 animation clip
-        public void FoldAxe()
+        public void _FoldAxe()
         {
             if (_animator.GetBool("OnTwoLegs"))
             {
@@ -145,6 +162,12 @@ namespace AcidOcean.Gameplay
             {
                 _axeAnimator.SetBool("Transformed", false);
             }
+        }
+
+        // Anim event on attackTWO animation
+        public void _EnableAxeCollision()
+        {
+            _bigBotAxe.IsColliderEnabled = !_bigBotAxe.IsColliderEnabled;
         }
     }
 }

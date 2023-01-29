@@ -55,7 +55,6 @@ public class MovingComponent : MonoBehaviour
     private void Update()
     {
 
-        print(_thisCharacter.CanIMove);
         if (_thisCharacter.CanIMove == false)
         {
             MovementChoice = 2;                     // μμμ υπενό β ΰοδειςε
@@ -129,6 +128,12 @@ public class MovingComponent : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         _coroutineLock = true;
         yield return new WaitForSeconds(0.3f);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        _coroutineLock = true;
     }
 
     private void OnDestroy()

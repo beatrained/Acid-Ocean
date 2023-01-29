@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BigBotAxe : MonoBehaviour, IDamaging
@@ -10,13 +8,17 @@ public class BigBotAxe : MonoBehaviour, IDamaging
     private Animator _animator, _parentAnimator;
     private GameObject _shield;
     private Collider _collider;
-    // Start is called before the first frame update
+    private CharStatsManagerPlayer _charStatManagerPlayer;
+
+    [SerializeField] private LayerMask _layerMask;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _parentAnimator = GetComponentInParent<Animator>();
         _collider = GetComponent<Collider>();
-        _shield = transform.GetChild(0).gameObject;
+        _charStatManagerPlayer = GetComponentInParent<CharStatsManagerPlayer>();
+        _shield = transform.GetChild(1).gameObject;
     }
 
     public bool IsShieldEnabled
@@ -25,9 +27,32 @@ public class BigBotAxe : MonoBehaviour, IDamaging
         set { _shield.SetActive(value); }
     }
 
-    // animation event in clip
-    public void _EnableCollisionDamage()
+    public bool IsColliderEnabled
     {
-        _collider.enabled = !_collider.enabled;
+        get { return _collider.enabled; }
+        set { _collider.enabled = value; }
+    }
+
+    public float DamageAmount { get => _charStatManagerPlayer.AiStats.MinMaxDamage.x; set => DamageAmount = value; }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        //if (col.gameObject.layer != _layerMask)
+        //{
+        //    return;
+        //}
+        //print("%%%%%%%%%%%%%%COLLIDED!");
+
+        if (col.gameObject.GetComponent<IDamageable>() != null && col.gameObject.name == "EnemyBladeFlower") //TODO shit here
+        {
+            if (col.gameObject.GetComponent<CharStatsManagerEnemies>().CharBasicStats.Faction == Faction.EnemyCharacters)
+            {
+                print("flower bot recieve damage in " + DamageAmount + " amount");
+                col.gameObject.GetComponent<CharStatsManagerEnemies>().TakeDamage(DamageAmount);
+                Vector3 dirToTarget = StaticUtils.DirToTarget(col.transform.position, this.transform.position);
+                ObjectsPositionManipulator
+                    .KnockbackActor(col.gameObject, dirToTarget * _charStatManagerPlayer.CharBasicStats.KnockbackStrength);
+            }
+        }
     }
 }
