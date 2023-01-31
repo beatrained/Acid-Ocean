@@ -43,12 +43,12 @@ public class BigBotAxe : MonoBehaviour, IDamaging
         //}
         //print("%%%%%%%%%%%%%%COLLIDED!");
 
-        if (col.gameObject.GetComponent<IDamageable>() != null && col.gameObject.name == "EnemyBladeFlower") //TODO shit here
+        if (col.gameObject.GetComponent<IDamageable>() != null && col.gameObject.name == "EnemyBladeFlower_rd") //TODO shit here
         {
             if (col.gameObject.GetComponent<CharStatsManagerEnemies>().CharBasicStats.Faction == Faction.EnemyCharacters)
             {
-                print("flower bot recieve damage in " + DamageAmount + " amount");
-                col.gameObject.GetComponent<CharStatsManagerEnemies>().TakeDamage(DamageAmount);
+                col.gameObject.GetComponent<CharStatsManagerEnemies>().TakeDamage(DamageAmount); // здесь нужно отправлять в соотв стейт, а там уже урон считать
+                col.gameObject.GetComponent<CharacterBase>().HurtMePlease();
                 Vector3 dirToTarget = StaticUtils.DirToTarget(col.transform.position, this.transform.position);
                 ObjectsPositionManipulator
                     .KnockbackActor(col.gameObject, dirToTarget * _charStatManagerPlayer.CharBasicStats.KnockbackStrength);

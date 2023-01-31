@@ -4,6 +4,7 @@ public class DetectableTargetComponent : MonoBehaviour
 {
     private void OnEnable()
     {
+        //print("calling register ```````````````````");
         DetectableTargetManager.Instance.Register(this);
     }
 

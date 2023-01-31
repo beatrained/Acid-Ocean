@@ -19,7 +19,6 @@ namespace AcidOcean.Gameplay
         private float _currentSpeed;
         
         [SerializeField][Range(0, 1)] private float _playerRotationSpeed = 0.1f;
-        private bool _disableControls = false;
 
         public float PlayerSpeed 
         { 
@@ -64,10 +63,7 @@ namespace AcidOcean.Gameplay
 
         private void FixedUpdate()
         {
-            _inputVector = _playerInputActions.PlayerBasicMovement.Movement.ReadValue<Vector2>();
-            _force = _playerLookDir * _currentSpeed;
-            _rigidbody.AddForce(_force, ForceMode.Force);
-            _animator.SetFloat("Speed", _force.magnitude);   // TODO get rid of .magnitude?
+            MoveCharacter();
         }
 
         private void Update()
@@ -79,13 +75,19 @@ namespace AcidOcean.Gameplay
                 Quaternion rotation = Quaternion.LookRotation(_playerLookDir, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _playerRotationSpeed);
             }
+        }
 
-            if (_disableControls)
+        private void MoveCharacter()
+        {
+            if (_playerCharacter.CanIMove)
             {
-                _playerInputActions.PlayerBasicMovement.Disable();
+                _inputVector = _playerInputActions.PlayerBasicMovement.Movement.ReadValue<Vector2>();
+                _force = _playerLookDir * _currentSpeed;
+                _rigidbody.AddForce(_force, ForceMode.Force);
+                _animator.SetFloat("Speed", _force.magnitude);   // TODO get rid of .magnitude?
             } else
             {
-                _playerInputActions.PlayerBasicMovement.Enable();
+                _animator.SetFloat(name: "Speed", 0);
             }
         }
 
@@ -133,7 +135,7 @@ namespace AcidOcean.Gameplay
         // Animation Event on player character StandUp and WeaponAttackONE-mod1 animation clips
         public void _FreezePlayer()
         {
-            _disableControls = !_disableControls;
+            _playerCharacter.CanIMove = !_playerCharacter.CanIMove;
         }
 
         // Animation Event on player character WeaponEquipX-mod1 animation clip

@@ -55,9 +55,10 @@ public class MovingComponent : MonoBehaviour
     private void Update()
     {
 
-        if (_thisCharacter.CanIMove == false)
+        if (_thisCharacter.CanIMove == false && _agent.isActiveAndEnabled)
         {
-            MovementChoice = 2;                     // μμμ υπενό β ΰοδειςε
+            MovementChoice = 2;                             // μμμ υπενό β ΰοδειςε
+            _agent.isStopped = true;
             if (_coroutineLock)
             {
                 StartCoroutine(WhatToDo());
@@ -97,8 +98,7 @@ public class MovingComponent : MonoBehaviour
     private IEnumerator StayAlertAndDoNothing()
     {
         _coroutineLock = false;
-        print("really? " + _thisCharacter.gameObject.name + " reports that can see target but stay at place");
-        _agent.isStopped = true;
+        if(_agent.isActiveAndEnabled) _agent.isStopped = true;
         yield return new WaitForSeconds(1);
         _coroutineLock = true;
     }

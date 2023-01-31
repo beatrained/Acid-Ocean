@@ -30,7 +30,8 @@ public abstract class CharacterBase : MonoBehaviour
     // At some point player character will recieve AI controls
     #region ==================AI===================
 
-    public bool CanIMove = false;
+    private bool _canIMove;
+    public bool CanIMove { get => _canIMove; set => _canIMove = value; }
     public virtual GameObject TargetToMoveTo { get; set; }
     public ActorState CurrentState { get; private set; }
 
@@ -132,6 +133,13 @@ public abstract class CharacterBase : MonoBehaviour
     public virtual void HandleSleeping()
     {
         print(gameObject.name + " is in ActorState.Sleeping state");
+    }
+
+    //=============================================================meh
+
+    public void HurtMePlease()
+    {
+        ChangeState(ActorState.TakingDamage);
     }
 
     #endregion ==================AI===================

@@ -6,27 +6,30 @@ using UnityEngine.AI;
 
 public class EnemyFlowerBot : EnemyCharacter
 {
-    [SerializeField] private GameObject _flowerCap;
-
     private CharStatsManagerEnemies _charStatsManagerEnemies;
     public CharStatsManagerEnemies CharStatsManagerEnemies => _charStatsManagerEnemies;
 
+    [SerializeField] private GameObject _flowerCap;
+    [SerializeField] private Renderer _healthIndicator;
+    private ParticleSystem _stunParticles;
     private Animator _animator;
     private NavMeshAgent _agent;
     private Rigidbody _rigidbodyCap;
     private MovingComponent _movingComponent;
     private EnemyFlowerBotBlades _blades;
 
-    private ParticleSystem _stunParticles;
-
     private bool _capRemoved = false;
-    private float _stunForTime = 1;       //
+    private float _stunForTime = 1;
+    private bool _isStunParticles = false;
     private byte _defaultMoveScheme = 0;
+
+    private Collider[] _legsColliders;
+    private Rigidbody[] _legsRigidbodies;
 
     private void Awake()
     {
         RunOnAwake();
-        GlobalEventManager.HealthIsEqualsZero += GlobalEventManager_HealthIsEqualsZero;
+        //GlobalEventManager.HealthIsEqualsZero += GlobalEventManager_HealthIsEqualsZero;
 
         _stunParticles = GetComponentInChildren<ParticleSystem>();
 
@@ -36,6 +39,9 @@ public class EnemyFlowerBot : EnemyCharacter
         _movingComponent = GetComponent<MovingComponent>();
         _blades = GetComponentInChildren<EnemyFlowerBotBlades>();
         _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();
+
+        _legsColliders = GetComponentsInChildren<Collider>();
+        _legsRigidbodies = GetComponentsInChildren<Rigidbody>();
     }
 
 
@@ -56,34 +62,16 @@ public class EnemyFlowerBot : EnemyCharacter
         }
     }
 
-    private void GlobalEventManager_HealthIsEqualsZero(GameObject arg)
+    public void StunMePlease(float time, bool enableParticles)
     {
-        if (arg == gameObject)
-        {
-            ChangeState(ActorState.Dying);
-        }
-    }
-
-    public void StunMePlease(float time)
-    {
+        _isStunParticles = enableParticles;
         _stunForTime = time;
         ChangeState(ActorState.Stunned);
     }
 
-    private void Update()
+        private void Update()
     {
         _animator.SetFloat("Speed", _agent.velocity.magnitude); // TODO another .magnitude here
-        
-        
-        
-        
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            print("Can I Move = " + CanIMove);
-        }
-
-
-
     }
 
     private void Start()
@@ -122,7 +110,7 @@ public class EnemyFlowerBot : EnemyCharacter
 
     public override void HandleStunned()
     {
-        StartCoroutine(StunnedSequence(_stunForTime));
+        StartCoroutine(StunnedSequence());
     }
 
     public override void HandleAccuireTarget()
@@ -137,12 +125,16 @@ public class EnemyFlowerBot : EnemyCharacter
 
     public override void HandleTakingDamage()
     {
-        _charStatsManagerEnemies.TakeDamage(_charStatsManagerEnemies.IncomingDamage);
+        // TODO not here
+        var healthPercent = 1 - _charStatsManagerEnemies.CharBasicStats.Health / _charStatsManagerEnemies.CharScriptable.BasicStats.Health;
+        _healthIndicator.material.SetFloat("_HealthPercent", healthPercent);
+        //StunMePlease(0.5f, false);
+        //_charStatsManagerEnemies.TakeDamage(_charStatsManagerEnemies.IncomingDamage);
     }
 
     public override void HandleDying()
     {
-        gameObject.SetActive(false);
+        StartCoroutine(DeathSequence());
     }
 
     private void RemoveFlowerCap()
@@ -156,7 +148,7 @@ public class EnemyFlowerBot : EnemyCharacter
         _rigidbodyCap.GetComponent<BoxCollider>().enabled = true;
         _rigidbodyCap.AddForce(StaticUtils.RandomVector3(0, 1, 8, 12, 0, 1), ForceMode.Impulse);
         _rigidbodyCap.AddTorque(StaticUtils.RandomVector3(0, 0.5f, 0, 0.5f, 0, 0.5f), ForceMode.Impulse);
-        _flowerCap.transform.parent = null; // TODO an idea. parent all shit like this to an empty object, then deal with it
+        _flowerCap.transform.parent = null; // TODO parent all shit like this to an empty object, then deal with it
     }
 
     private IEnumerator AsleepSequence()
@@ -170,18 +162,47 @@ public class EnemyFlowerBot : EnemyCharacter
         _movingComponent.MovementChoice = _defaultMoveScheme;
     }
 
-    private IEnumerator StunnedSequence(float stunTime)
+    private IEnumerator StunnedSequence()
     {
-        _stunParticles.Play();
+        if (_isStunParticles)
+        {
+            _stunParticles.Play();
+        }
 
         CanIMove = false;
         _movingComponent.MovementChoice = 2;
         _blades.SpinBlades = false;
         _blades.UnpackBlades(false);
         _animator.SetBool("Stunned", true);
-        yield return new WaitForSeconds(stunTime);          // TODO actor stun time parameter or sth
+        yield return new WaitForSeconds(_stunForTime);          // TODO actor stun time parameter or sth
         _animator.SetBool("Stunned", false);
         ChangeState(ActorState.Chasing);
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        _blades.SpinBlades = false;
+        _blades.UnpackBlades(false);
+        Destroy(_blades.GetComponent<Rigidbody>());
+
+        CanIMove = false;
+        _movingComponent.MovementChoice = 2;
+        TargetToMoveTo = null;
+        GetComponent<VisionComponent>().enabled = false;
+        GetComponent<MovingComponent>().enabled = false;
+        GetComponent<NavMeshAgent>().enabled = false;
+        _animator.enabled = false;
+        gameObject.GetComponent<Rigidbody>().freezeRotation = false;
+        foreach (Collider col in _legsColliders)
+        {
+            col.enabled = true;
+        }
+        foreach (Rigidbody rgb in _legsRigidbodies)
+        {
+            rgb.isKinematic = false;
+        }
+        yield return new WaitForSeconds(1f);
+        // some effects mb
     }
 
     private void OnEnable()

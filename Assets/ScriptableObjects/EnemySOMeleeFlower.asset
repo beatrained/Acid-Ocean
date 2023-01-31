@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _basicStats:
     CharName: FlowerBot
-    Health: 50
+    Health: 100
     Speed: 3.4
     SpeedMlt: 1.4
-    KnockbackStrength: 8
+    KnockbackStrength: 16
     Faction: 1
   _aiStats:
     MinMaxDamage: {x: 10, y: 15}

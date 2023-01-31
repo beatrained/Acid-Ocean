@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
 {
-    private Animator _bladesAnimator;
+    [SerializeField] private Animator _bladesAnimator;
     EnemyFlowerBot _thisCharacter;
     public bool SpinBlades { get; set; }
     public float DamageAmount { get; set; }
@@ -18,7 +18,7 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
     private void Awake()
     {
         _thisCharacter = GetComponentInParent<EnemyFlowerBot>();
-        _bladesAnimator = GetComponent<Animator>();
+        //_bladesAnimator = GetComponent<Animator>();
         _bladesCollider = GetComponent<MeshCollider>();
         _characterStatsManager = GetComponentInParent<CharacterStatsManagerBase>(); //
     }
@@ -30,6 +30,11 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
 
     public void UnpackBlades(bool isOpened)
     {
+        if (_bladesAnimator == null)
+        {
+            print(gameObject.name + " reports that his BLADES ANIMATOR == null");
+            return;
+        }
         if (isOpened)
         {
             _bladesAnimator.SetBool("Release Blades", true);
@@ -77,8 +82,8 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
             if (isBlocked)
             {
                 ObjectsPositionManipulator
-                .KnockbackActor(_thisCharacter.gameObject, -dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength * 0.8f);
-                _thisCharacter.StunMePlease(2);
+                .KnockbackActor(_thisCharacter.gameObject, -dirToTarget * _thisCharacter.CharacterStatsManager.CharBasicStats.KnockbackStrength);
+                _thisCharacter.StunMePlease(2, true);
             }
             else
             {

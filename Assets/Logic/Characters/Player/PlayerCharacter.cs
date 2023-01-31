@@ -21,13 +21,19 @@ public class PlayerCharacter : CharacterBase
     {
         if (state == GameState.Running)
         {
-            CanIMove = true;
+            ChangeState(ActorState.Wandering);
         }
     }
 
     private void Start()
     {
         ChangeState(ActorState.Wandering); // у playera Wandering это обычное управление игроком
+    }
+
+    public override void HandleWandering()
+    {
+        base.HandleWandering();
+        CanIMove = true;
     }
 
     public override void HandleTakingDamage()

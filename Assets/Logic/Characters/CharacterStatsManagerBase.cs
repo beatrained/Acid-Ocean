@@ -30,6 +30,10 @@ public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
+        if (CharBasicStats.Health <= 0)
+        {
+            return;
+        }
         CharBasicStats.Health -= amount;
         if (CharBasicStats.Health <= 0)
         {

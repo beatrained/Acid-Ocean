@@ -4,7 +4,7 @@ using UnityEngine;
 public class DetectableTargetManager : MonoBehaviour
 {
     public static DetectableTargetManager Instance { get; private set; } = null;
-    [SerializeField] public List<DetectableTargetComponent> AllTargets { get; private set; } = new List<DetectableTargetComponent>();
+    public List<DetectableTargetComponent> AllTargets { get; private set; }
 
     private void Awake()
     {
@@ -16,6 +16,8 @@ public class DetectableTargetManager : MonoBehaviour
         {
             Instance = this;
         }
+        AllTargets = new List<DetectableTargetComponent>();
+        //print("Awake is done `````````````````````````````````````");
     }
 
     public void Register(DetectableTargetComponent target)
