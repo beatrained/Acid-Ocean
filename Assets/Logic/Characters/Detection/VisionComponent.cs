@@ -1,10 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterBase))]
 public class VisionComponent : MonoBehaviour
 {
-    //что тут должно быть: настраиваемый конус(с видимым гизмо в редакторе), который будет детектить нужных акторов и возвращать их
-
     #region gizmos
     private void OnDrawGizmos()
     {
@@ -13,6 +10,11 @@ public class VisionComponent : MonoBehaviour
         Gizmos.DrawWireSphere(Vector3.zero, 15);
     }
     #endregion gizmos
+
+    [SerializeField] private bool _canSee = false;
+    [SerializeField] private bool _canHear = false;
+
+    //[SerializeField] private SphereCollider _hearCollider;
 
     [SerializeField] private LayerMask _detectionMask = ~0;
 
@@ -27,6 +29,14 @@ public class VisionComponent : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (_canSee)
+        {
+            Vision();
+        }
+    }
+
+    private void Vision()
     {
         if (DetectableTargetManager.Instance.AllTargets.Count == 0)
         {
@@ -70,6 +80,18 @@ public class VisionComponent : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider col)
+    {
+        if (!_canHear || !col.TryGetComponent(out INoisy iNoisy))
+        {
+            return;
+        }
+        if (col.GetComponent<INoisy>().Noise)
+        {
+            _thisCharacter.TargetToMoveTo = col.gameObject;
         }
     }
 }

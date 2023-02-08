@@ -15,6 +15,10 @@ TagManager:
   - Player
   - Terrain
   - Actors
+  - Ragdoll
+  - Weapon
+  - EnemyWeapons
+  - StaticEnv
   - 
   - 
   - 
@@ -31,12 +35,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - SoundEmitter
+  - SoundReciever
   - 
   m_SortingLayers:
   - name: Default

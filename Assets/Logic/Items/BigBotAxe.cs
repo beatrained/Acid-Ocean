@@ -33,22 +33,21 @@ public class BigBotAxe : MonoBehaviour, IDamaging
         set { _collider.enabled = value; }
     }
 
-    public float DamageAmount { get => _charStatManagerPlayer.AiStats.MinMaxDamage.x; set => DamageAmount = value; }
+    public float DamageAmount
+    {
+        get => Random.Range(_charStatManagerPlayer.AiStats.MinMaxDamage.x,
+                            _charStatManagerPlayer.AiStats.MinMaxDamage.y);
+    }
 
     private void OnCollisionEnter(Collision col)
     {
-        //if (col.gameObject.layer != _layerMask)
-        //{
-        //    return;
-        //}
-        //print("%%%%%%%%%%%%%%COLLIDED!");
-
-        if (col.gameObject.GetComponent<IDamageable>() != null && col.gameObject.name == "EnemyBladeFlower_rd") //TODO shit here
+        IDamageable idam = col.gameObject.GetComponent<IDamageable>();
+        if (idam != null && col.gameObject.layer == 8)
         {
             if (col.gameObject.GetComponent<CharStatsManagerEnemies>().CharBasicStats.Faction == Faction.EnemyCharacters)
             {
-                col.gameObject.GetComponent<CharStatsManagerEnemies>().TakeDamage(DamageAmount); // здесь нужно отправлять в соотв стейт, а там уже урон считать
-                col.gameObject.GetComponent<CharacterBase>().HurtMePlease();
+                //col.gameObject.GetComponent<CharStatsManagerEnemies>().TakeDamage(DamageAmount);
+                //col.gameObject.GetComponent<CharacterBase>().HurtMePlease();
                 Vector3 dirToTarget = StaticUtils.DirToTarget(col.transform.position, this.transform.position);
                 ObjectsPositionManipulator
                     .KnockbackActor(col.gameObject, dirToTarget * _charStatManagerPlayer.CharBasicStats.KnockbackStrength);

@@ -6,5 +6,5 @@ public interface IDamaging
 {
     //float KnockbackStrength { get; set; }
 
-    float DamageAmount { get; set; }
+    float DamageAmount { get; }
 }

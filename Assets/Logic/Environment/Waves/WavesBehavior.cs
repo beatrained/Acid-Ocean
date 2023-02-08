@@ -1,5 +1,4 @@
 using UnityEngine;
-
 namespace Assets.Logic.Environment.Waves
 {
     public class WavesBehavior : MonoBehaviour

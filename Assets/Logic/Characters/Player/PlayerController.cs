@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using AcidOcean.Game;
-
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace AcidOcean.Gameplay
 {
     public class PlayerController : MonoBehaviour
     {
         private Rigidbody _rigidbody;
-        private PlayerInputActions _playerInputActions;
+        public PlayerInputActions PlayerInputActions { get; set; }
         private PlayerCharacter _playerCharacter;
         private CharStatsManagerPlayer _charStatsManagerPlayer;
         private Animator _animator;
@@ -19,6 +19,14 @@ namespace AcidOcean.Gameplay
         private float _currentSpeed;
         
         [SerializeField][Range(0, 1)] private float _playerRotationSpeed = 0.1f;
+
+        [SerializeField] private GameObject _axeInHands;        // TODO change to static links
+        [SerializeField] private GameObject _turretOnTheBack;
+        [SerializeField] private Animator _axeAnimator;
+
+        
+
+        private BigBotAxe _bigBotAxe;
 
         public float PlayerSpeed 
         { 
@@ -36,13 +44,6 @@ namespace AcidOcean.Gameplay
             set { _charStatsManagerPlayer.CharBasicStats.Speed = value; }
         }
 
-        [SerializeField] private GameObject _axeInHands;        // TODO change to static links
-        [SerializeField] private GameObject _turretOnTheBack;
-        [SerializeField] private Animator _axeAnimator;
-
-        private BigBotAxe _bigBotAxe;
-
-
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -50,12 +51,12 @@ namespace AcidOcean.Gameplay
             _playerCharacter = GetComponent<PlayerCharacter>();
             _charStatsManagerPlayer = GetComponent<CharStatsManagerPlayer>();
 
-            _playerInputActions = new PlayerInputActions();
-            _playerInputActions.PlayerBasicMovement.Enable();
-            _playerInputActions.PlayerBasicMovement.ChangePose.performed += ChangePose_performed;
-            _playerInputActions.PlayerBasicMovement.Attack.performed += Attack_performed;
-            _playerInputActions.PlayerBasicMovement.Block.started += Block_started;
-            _playerInputActions.PlayerBasicMovement.Block.canceled += Block_canceled;
+            PlayerInputActions = new PlayerInputActions();
+            PlayerInputActions.PlayerBasicMovement.Enable();
+            PlayerInputActions.PlayerBasicMovement.ChangePose.performed += ChangePose_performed;
+            PlayerInputActions.PlayerBasicMovement.Attack.performed += Attack_performed;
+            PlayerInputActions.PlayerBasicMovement.Block.started += Block_started;
+            PlayerInputActions.PlayerBasicMovement.Block.canceled += Block_canceled;
 
             _currentSpeed = PlayerSpeed;
             _bigBotAxe = _axeInHands.GetComponent<BigBotAxe>();
@@ -77,11 +78,18 @@ namespace AcidOcean.Gameplay
             }
         }
 
+        private void OnCollisionEnter(Collision col)
+        {
+            IDamaging idam = col.gameObject.GetComponent<IDamaging>();
+            if (idam == null || col.gameObject.layer != 11 || _animator.GetBool("Block")) return;
+            GlobalEventManager.PlayerDamaged(idam.DamageAmount);
+        }
+
         private void MoveCharacter()
         {
             if (_playerCharacter.CanIMove)
             {
-                _inputVector = _playerInputActions.PlayerBasicMovement.Movement.ReadValue<Vector2>();
+                _inputVector = PlayerInputActions.PlayerBasicMovement.Movement.ReadValue<Vector2>();
                 _force = _playerLookDir * _currentSpeed;
                 _rigidbody.AddForce(_force, ForceMode.Force);
                 _animator.SetFloat("Speed", _force.magnitude);   // TODO get rid of .magnitude?
@@ -100,7 +108,8 @@ namespace AcidOcean.Gameplay
         {
             if (_animator.GetBool("OnTwoLegs"))
             {
-                _animator.SetTrigger("AttackTrigger");    // mmmmmmm we definetely need script on axe itself, because of the collider on off
+                _animator.SetTrigger("AttackTrigger");
+                _playerCharacter.AttackPlease();
             }
         }
 
@@ -122,10 +131,12 @@ namespace AcidOcean.Gameplay
             {
                 if (_animator.GetBool("OnTwoLegs") == false)
                 {
+                    LocalEventManager.StayOnFour();
                     _animator.SetBool("OnTwoLegs", true);
                 }
                 else
                 {
+                    LocalEventManager.StayOnTwo();
                     _animator.SetBool("OnTwoLegs", false);
                 }
                 UpdateStats();
@@ -149,6 +160,7 @@ namespace AcidOcean.Gameplay
             else
             {
                 _axeInHands.SetActive(false);
+                //_turretOnTheBack.transform.rotation = _defaultRotation;
                 _turretOnTheBack.SetActive(true);
             }
         }

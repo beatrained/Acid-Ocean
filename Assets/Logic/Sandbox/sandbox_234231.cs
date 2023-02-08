@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// script is on dummy rigidbody tester
+
 public class sandbox_234231 : MonoBehaviour
 {
     // Start is called before the first frame update

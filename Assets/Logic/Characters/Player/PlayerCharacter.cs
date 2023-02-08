@@ -30,6 +30,12 @@ public class PlayerCharacter : CharacterBase
         ChangeState(ActorState.Wandering); // у playera Wandering это обычное управление игроком
     }
 
+    public override void HandleAttacking()
+    {
+        StartCoroutine(_charStatManagerPlayer.GetComponent<INoisy>().MakeNoise(0.5f));
+        ChangeState(ActorState.Wandering);
+    }
+
     public override void HandleWandering()
     {
         base.HandleWandering();

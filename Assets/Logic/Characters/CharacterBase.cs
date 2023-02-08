@@ -6,7 +6,7 @@ using System;
 [RequireComponent(typeof(CharacterStatsManagerBase))]
 public abstract class CharacterBase : MonoBehaviour
 {
-    [HideInInspector] public CharacterStatsManagerBase CharacterStatsManager;
+    public CharacterStatsManagerBase CharacterStatsManager;
 
     public void RunOnAwake()
     {
@@ -30,8 +30,8 @@ public abstract class CharacterBase : MonoBehaviour
     // At some point player character will recieve AI controls
     #region ==================AI===================
 
-    private bool _canIMove;
-    public bool CanIMove { get => _canIMove; set => _canIMove = value; }
+    public bool CanIMove { get; set; }
+    public bool IsDead { get; set; }
     public virtual GameObject TargetToMoveTo { get; set; }
     public ActorState CurrentState { get; private set; }
 
@@ -49,6 +49,7 @@ public abstract class CharacterBase : MonoBehaviour
             return;
         }
         CurrentState = newState;
+        print("New " + gameObject.name + " state is " + CurrentState);
         switch (newState)
         {
             case ActorState.Sleeping:
@@ -102,6 +103,7 @@ public abstract class CharacterBase : MonoBehaviour
 
     public virtual void HandleSpawning()
     {
+        IsDead = false;
         print(gameObject.name + " is in ActorState.Spawning state");
     }
 
@@ -140,6 +142,11 @@ public abstract class CharacterBase : MonoBehaviour
     public void HurtMePlease()
     {
         ChangeState(ActorState.TakingDamage);
+    }
+
+    public void AttackPlease()
+    {
+        ChangeState(ActorState.Attacking);
     }
 
     #endregion ==================AI===================

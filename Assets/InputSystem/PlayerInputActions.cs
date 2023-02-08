@@ -71,6 +71,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""f4814de2-3f04-41d0-a01d-9f4c2e9ba935"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -194,6 +203,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dcce244d-c6ca-417d-8f4c-c010878008f7"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardPC"",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -224,6 +244,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_PlayerBasicMovement_ChangePose = m_PlayerBasicMovement.FindAction("ChangePose", throwIfNotFound: true);
         m_PlayerBasicMovement_Attack = m_PlayerBasicMovement.FindAction("Attack", throwIfNotFound: true);
         m_PlayerBasicMovement_Block = m_PlayerBasicMovement.FindAction("Block", throwIfNotFound: true);
+        m_PlayerBasicMovement_MousePosition = m_PlayerBasicMovement.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -288,6 +309,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerBasicMovement_ChangePose;
     private readonly InputAction m_PlayerBasicMovement_Attack;
     private readonly InputAction m_PlayerBasicMovement_Block;
+    private readonly InputAction m_PlayerBasicMovement_MousePosition;
     public struct PlayerBasicMovementActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -297,6 +319,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @ChangePose => m_Wrapper.m_PlayerBasicMovement_ChangePose;
         public InputAction @Attack => m_Wrapper.m_PlayerBasicMovement_Attack;
         public InputAction @Block => m_Wrapper.m_PlayerBasicMovement_Block;
+        public InputAction @MousePosition => m_Wrapper.m_PlayerBasicMovement_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_PlayerBasicMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -321,6 +344,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnBlock;
+                @MousePosition.started -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface.OnMousePosition;
             }
             m_Wrapper.m_PlayerBasicMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -340,6 +366,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
         }
     }
@@ -360,5 +389,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnChangePose(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

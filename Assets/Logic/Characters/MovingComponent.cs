@@ -55,9 +55,9 @@ public class MovingComponent : MonoBehaviour
     private void Update()
     {
 
-        if (_thisCharacter.CanIMove == false && _agent.isActiveAndEnabled)
+        if (_thisCharacter.CanIMove == false && _agent.enabled == true)
         {
-            MovementChoice = 2;                             // μμμ υπενό β ΰοδειςε
+            MovementChoice = 2;
             _agent.isStopped = true;
             if (_coroutineLock)
             {

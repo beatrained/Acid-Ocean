@@ -1,7 +1,7 @@
 using UnityEngine;
 using AcidOcean.Game;
 
-public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
+public class CharacterStatsManagerBase : MonoBehaviour, IDamageable, INoisy
 {
     CharacterBase _thisCharacter;
 
@@ -28,6 +28,7 @@ public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
     #region IDamageable
     public float Health { get { return CharBasicStats.Health; } set { CharBasicStats.Health = value; } }
 
+
     public void TakeDamage(float amount)
     {
         if (CharBasicStats.Health <= 0)
@@ -41,4 +42,7 @@ public class CharacterStatsManagerBase : MonoBehaviour, IDamageable
         }
     }
     #endregion IDamageable
+
+    //INoisy
+    public bool Noise { get; set; }
 }

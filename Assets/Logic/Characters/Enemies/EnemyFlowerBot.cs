@@ -1,6 +1,6 @@
 using AcidOcean.Game;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +14,7 @@ public class EnemyFlowerBot : EnemyCharacter
     private ParticleSystem _stunParticles;
     private Animator _animator;
     private NavMeshAgent _agent;
+    private Rigidbody _rigidbody;
     private Rigidbody _rigidbodyCap;
     private MovingComponent _movingComponent;
     private EnemyFlowerBotBlades _blades;
@@ -23,8 +24,10 @@ public class EnemyFlowerBot : EnemyCharacter
     private bool _isStunParticles = false;
     private byte _defaultMoveScheme = 0;
 
-    private Collider[] _legsColliders;
-    private Rigidbody[] _legsRigidbodies;
+    private Collider[] _allColliders;
+    private Rigidbody[] _allRigidbodies;
+
+    [SerializeField] private LayerMask _damageSources;
 
     private void Awake()
     {
@@ -38,10 +41,11 @@ public class EnemyFlowerBot : EnemyCharacter
         _agent = GetComponent<NavMeshAgent>();
         _movingComponent = GetComponent<MovingComponent>();
         _blades = GetComponentInChildren<EnemyFlowerBotBlades>();
+        _rigidbody = GetComponent<Rigidbody>();
         _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();
 
-        _legsColliders = GetComponentsInChildren<Collider>();
-        _legsRigidbodies = GetComponentsInChildren<Rigidbody>();
+        _allColliders = GetComponentsInChildren<Collider>();
+        _allRigidbodies = GetComponentsInChildren<Rigidbody>();
     }
 
 
@@ -50,6 +54,10 @@ public class EnemyFlowerBot : EnemyCharacter
         get => base.TargetToMoveTo;
         set
         {
+            if (value == base.TargetToMoveTo)
+            {
+                return;
+            }
             base.TargetToMoveTo = value;
             if (value != null)
             {
@@ -78,6 +86,11 @@ public class EnemyFlowerBot : EnemyCharacter
     {
         ChangeState(ActorState.Sleeping);
         _agent.speed = CharStatsManagerEnemies.CharBasicStats.Speed;
+    }
+
+    public override void HandleSpawning()
+    {
+        base.HandleSpawning();
     }
 
     public override void HandleSleeping()
@@ -117,8 +130,8 @@ public class EnemyFlowerBot : EnemyCharacter
     {
         // deal with player
         if (TargetToMoveTo.CompareTag("Player"))
-            _movingComponent.MovementChoice = _defaultMoveScheme;
         {
+            _movingComponent.MovementChoice = _defaultMoveScheme;
             ChangeState(ActorState.Chasing);
         }
     }
@@ -135,6 +148,7 @@ public class EnemyFlowerBot : EnemyCharacter
     public override void HandleDying()
     {
         StartCoroutine(DeathSequence());
+        IsDead = true;
     }
 
     private void RemoveFlowerCap()
@@ -176,32 +190,63 @@ public class EnemyFlowerBot : EnemyCharacter
         _animator.SetBool("Stunned", true);
         yield return new WaitForSeconds(_stunForTime);          // TODO actor stun time parameter or sth
         _animator.SetBool("Stunned", false);
-        ChangeState(ActorState.Chasing);
+        if (!IsDead)
+        {
+            ChangeState(ActorState.Chasing);
+        }
     }
 
     private IEnumerator DeathSequence()
     {
+        if (IsDead)
+        {
+            yield break; 
+        }
+        StopCoroutine(StunnedSequence());
+        CanIMove = false;
+        _movingComponent.MovementChoice = 2;
+
         _blades.SpinBlades = false;
         _blades.UnpackBlades(false);
         Destroy(_blades.GetComponent<Rigidbody>());
+        _blades.GetComponent<Collider>().enabled = false;
+        ObjectsPositionManipulator.KnockbackActor(gameObject, new Vector3(1, 16, 1));
 
-        CanIMove = false;
-        _movingComponent.MovementChoice = 2;
-        TargetToMoveTo = null;
         GetComponent<VisionComponent>().enabled = false;
         GetComponent<MovingComponent>().enabled = false;
         GetComponent<NavMeshAgent>().enabled = false;
         _animator.enabled = false;
         gameObject.GetComponent<Rigidbody>().freezeRotation = false;
-        foreach (Collider col in _legsColliders)
+
+        var legsCollidersWOParent = _allColliders.ToList().Skip(1);
+        //var legsRBWOParent = _allRigidbodies.ToList().Skip(1);
+        foreach (Collider col in legsCollidersWOParent)
         {
+            if (col.isTrigger || col.gameObject.layer == 11)
+            {
+                continue;
+            }
             col.enabled = true;
+            col.gameObject.AddComponent<CharacterJoint>().connectedBody = _rigidbody;
         }
-        foreach (Rigidbody rgb in _legsRigidbodies)
+
+        foreach (Rigidbody rgb in _allRigidbodies)
         {
             rgb.isKinematic = false;
         }
-        yield return new WaitForSeconds(1f);
+
+        yield return new WaitForSeconds(4f);
+        _allColliders = GetComponentsInChildren<Collider>();
+        _allRigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (var rgb in _allRigidbodies)
+        {
+            rgb.isKinematic = true;
+        }
+        foreach (var col in _allColliders)
+        {
+            col.enabled = false;
+        }
+        StopAllCoroutines();
         // some effects mb
     }
 
@@ -218,5 +263,13 @@ public class EnemyFlowerBot : EnemyCharacter
     private void OnDestroy()
     {
         StopAllCoroutines();
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        IDamaging idam = col.gameObject.GetComponent<IDamaging>();
+        if (idam == null || (col.gameObject.layer != 10)) return;
+        _charStatsManagerEnemies.TakeDamage(idam.DamageAmount);
+        ChangeState(ActorState.TakingDamage); 
     }
 }

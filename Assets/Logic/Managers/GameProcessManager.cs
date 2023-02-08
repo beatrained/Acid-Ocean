@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameProcessManager : MonoBehaviour
 {
-    public static event Action<GameState> OnBeforeStateChanged; // ивенты при смене стейта
+    public static event Action<GameState> OnBeforeStateChanged;
 
     public static event Action<GameState> OnAfterStateChanged;
 
@@ -11,7 +11,7 @@ public class GameProcessManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(GameState.Running); // temp for now
+        ChangeState(GameState.Running);
     }
 
     public void ChangeState(GameState newState)

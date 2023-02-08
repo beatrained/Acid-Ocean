@@ -24,4 +24,5 @@ MonoBehaviour:
     VisionRange: 15
     VisionAngle: 50
     HearingRange: 15
-  _agroRange: 0
+  _agroRange: 5
+  _enemyType: 0

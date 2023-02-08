@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1747046964170089529}
   - component: {fileID: 3427549792891792284}
   - component: {fileID: 609654087165124438}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: env_tree_spruce_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
