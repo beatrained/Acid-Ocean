@@ -21,9 +21,9 @@ public class EnemyFlowerBotBlades : MonoBehaviour, IDamaging
 
     private void Awake()
     {
+        _bladesCollider = GetComponent<MeshCollider>();
         _thisCharacter = GetComponentInParent<EnemyFlowerBot>();
         _bladesAnimator = GetComponent<Animator>();
-        _bladesCollider = GetComponent<MeshCollider>();
         _characterStatsManager = GetComponentInParent<CharacterStatsManagerBase>(); //
     }
 

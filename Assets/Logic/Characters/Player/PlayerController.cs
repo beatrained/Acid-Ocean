@@ -58,8 +58,13 @@ namespace AcidOcean.Gameplay
             PlayerInputActions.PlayerBasicMovement.Block.started += Block_started;
             PlayerInputActions.PlayerBasicMovement.Block.canceled += Block_canceled;
 
-            _currentSpeed = PlayerSpeed;
+            //_currentSpeed = PlayerSpeed;
             _bigBotAxe = _axeInHands.GetComponent<BigBotAxe>();
+        }
+
+        private void Start()
+        {
+            _currentSpeed = PlayerSpeed;
         }
 
         private void FixedUpdate()
@@ -69,6 +74,12 @@ namespace AcidOcean.Gameplay
 
         private void Update()
         {
+            RotateCharacter();
+            //Debug.Log("Player speed is equals " + PlayerSpeed);
+        }
+
+        private void RotateCharacter()
+        {
             _playerLookDir = new Vector3(_inputVector.x, 0, _inputVector.y);
 
             if (_playerLookDir != Vector3.zero)
@@ -76,13 +87,6 @@ namespace AcidOcean.Gameplay
                 Quaternion rotation = Quaternion.LookRotation(_playerLookDir, Vector3.up);
                 transform.rotation = Quaternion.Lerp(transform.rotation, rotation, _playerRotationSpeed);
             }
-        }
-
-        private void OnCollisionEnter(Collision col)
-        {
-            IDamaging idam = col.gameObject.GetComponent<IDamaging>();
-            if (idam == null || col.gameObject.layer != 11 || _animator.GetBool("Block")) return;
-            GlobalEventManager.PlayerDamaged(idam.DamageAmount);
         }
 
         private void MoveCharacter()
@@ -97,6 +101,12 @@ namespace AcidOcean.Gameplay
             {
                 _animator.SetFloat(name: "Speed", 0);
             }
+        }
+        private void OnCollisionEnter(Collision col)
+        {
+            IDamaging idam = col.gameObject.GetComponent<IDamaging>();
+            if (idam == null || col.gameObject.layer != 11 || _animator.GetBool("Block")) return;
+            GlobalEventManager.PlayerDamaged(idam.DamageAmount);
         }
 
         void UpdateStats()
@@ -152,7 +162,7 @@ namespace AcidOcean.Gameplay
         // Animation Event on player character WeaponEquipX-mod1 animation clip
         public void _ShowAxeInHands()
         {
-            if (!_axeInHands.activeSelf)
+            if (!_axeInHands.activeSelf && _animator.GetBool("OnTwoLegs"))
             {
                 _axeInHands.SetActive(true);
                 _turretOnTheBack.SetActive(false);
@@ -160,7 +170,6 @@ namespace AcidOcean.Gameplay
             else
             {
                 _axeInHands.SetActive(false);
-                //_turretOnTheBack.transform.rotation = _defaultRotation;
                 _turretOnTheBack.SetActive(true);
             }
         }

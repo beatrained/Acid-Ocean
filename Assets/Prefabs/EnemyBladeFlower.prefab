@@ -127,11 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterStatsManager: {fileID: 0}
+  HealthIndicator: {fileID: 0}
   _flowerCap: {fileID: 3997275826988510665}
-  _healthIndicator: {fileID: 8714547340545521505}
-  _damageSources:
-    serializedVersion: 2
-    m_Bits: 320
 --- !u!114 &4304896501618245643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,12 +900,6 @@ CapsuleCollider:
 --- !u!4 &8360830236895226205 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5746564759562468899, guid: 0f24dec87c86e0f4f9a4fb3a594b71b5,
-    type: 3}
-  m_PrefabInstance: {fileID: 4303265302956971902}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &8714547340545521505 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4848140788213342239, guid: 0f24dec87c86e0f4f9a4fb3a594b71b5,
     type: 3}
   m_PrefabInstance: {fileID: 4303265302956971902}
   m_PrefabAsset: {fileID: 0}

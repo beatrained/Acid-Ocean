@@ -91,7 +91,13 @@ public class VisionComponent : MonoBehaviour
         }
         if (col.GetComponent<INoisy>().Noise)
         {
-            _thisCharacter.TargetToMoveTo = col.gameObject;
+            if (col.gameObject.tag == "Player")
+            {
+                _thisCharacter.TargetToMoveTo = col.gameObject;
+            } else
+            {
+                _thisCharacter.TargetToMoveTo = col.gameObject.GetComponent<CharacterBase>().TargetToMoveTo;
+            }
         }
     }
 }

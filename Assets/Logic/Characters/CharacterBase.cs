@@ -8,7 +8,7 @@ public abstract class CharacterBase : MonoBehaviour
 {
     public CharacterStatsManagerBase CharacterStatsManager;
 
-    public void RunOnAwake()
+    public virtual void RunOnAwake()
     {
         GlobalEventManager.HealthIsEqualsZero += LocalEventManager_HealthIsEqualsZero;
         CharacterStatsManager = GetComponent<CharacterStatsManagerBase>();
@@ -49,7 +49,7 @@ public abstract class CharacterBase : MonoBehaviour
             return;
         }
         CurrentState = newState;
-        print("New " + gameObject.name + " state is " + CurrentState);
+        //print($"New {gameObject.name} state is {CurrentState}");
         switch (newState)
         {
             case ActorState.Sleeping:

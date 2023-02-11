@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: EnemySORangedBot
   m_EditorClassIdentifier: 
   _basicStats:
-    CharName: 
-    Health: 0
-    Speed: 0
-    SpeedMlt: 0
-    KnockbackStrength: 0
-    Faction: 0
+    CharName: RangedBot
+    Health: 80
+    Speed: 2
+    SpeedMlt: 1.4
+    KnockbackStrength: 5
+    Faction: 1
   _aiStats:
-    MinMaxDamage: {x: 0, y: 0}
-    VisionRange: 0
-    VisionAngle: 0
-    HearingRange: 0
-  _agroRange: 0
-  _enemyType: 0
+    MinMaxDamage: {x: 5, y: 13}
+    VisionRange: 20
+    VisionAngle: 90
+    HearingRange: 15
+  _agroRange: 5
+  _enemyType: 2

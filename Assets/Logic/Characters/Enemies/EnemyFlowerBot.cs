@@ -6,17 +6,9 @@ using UnityEngine.AI;
 
 public class EnemyFlowerBot : EnemyCharacter
 {
-    private CharStatsManagerEnemies _charStatsManagerEnemies;
-    public CharStatsManagerEnemies CharStatsManagerEnemies => _charStatsManagerEnemies;
-
     [SerializeField] private GameObject _flowerCap;
-    [SerializeField] private Renderer _healthIndicator;
     private ParticleSystem _stunParticles;
-    private Animator _animator;
-    private NavMeshAgent _agent;
-    private Rigidbody _rigidbody;
     private Rigidbody _rigidbodyCap;
-    private MovingComponent _movingComponent;
     private EnemyFlowerBotBlades _blades;
 
     private bool _capRemoved = false;
@@ -27,48 +19,17 @@ public class EnemyFlowerBot : EnemyCharacter
     private Collider[] _allColliders;
     private Rigidbody[] _allRigidbodies;
 
-    [SerializeField] private LayerMask _damageSources;
-
     private void Awake()
     {
         RunOnAwake();
-        //GlobalEventManager.HealthIsEqualsZero += GlobalEventManager_HealthIsEqualsZero;
 
         _stunParticles = GetComponentInChildren<ParticleSystem>();
-
-        _charStatsManagerEnemies = GetComponent<CharStatsManagerEnemies>();
-        _animator = GetComponent<Animator>();
-        _agent = GetComponent<NavMeshAgent>();
-        _movingComponent = GetComponent<MovingComponent>();
         _blades = GetComponentInChildren<EnemyFlowerBotBlades>();
-        _rigidbody = GetComponent<Rigidbody>();
         _rigidbodyCap = _flowerCap.GetComponent<Rigidbody>();
-
         _allColliders = GetComponentsInChildren<Collider>();
         _allRigidbodies = GetComponentsInChildren<Rigidbody>();
     }
 
-
-    public override GameObject TargetToMoveTo
-    {
-        get => base.TargetToMoveTo;
-        set
-        {
-            if (value == base.TargetToMoveTo)
-            {
-                return;
-            }
-            base.TargetToMoveTo = value;
-            if (value != null)
-            {
-                ChangeState(ActorState.AccuireTarget);
-            }
-            else if (value == null)
-            {
-                ChangeState(ActorState.Sleeping);
-            }
-        }
-    }
 
     public void StunMePlease(float time, bool enableParticles)
     {
@@ -79,17 +40,18 @@ public class EnemyFlowerBot : EnemyCharacter
 
         private void Update()
     {
-        _animator.SetFloat("Speed", _agent.velocity.magnitude); // TODO another .magnitude here
+        ThisAnimator.SetFloat("Speed", ThisAgent.velocity.magnitude); // TODO another .magnitude here
     }
 
     private void Start()
     {
-        ChangeState(ActorState.Sleeping);
-        _agent.speed = CharStatsManagerEnemies.CharBasicStats.Speed;
+        ChangeState(ActorState.Spawning);
+        ThisAgent.speed = ThisCharStatManagerEnemies.CharBasicStats.Speed;
     }
 
     public override void HandleSpawning()
     {
+        ChangeState(ActorState.Sleeping);
         base.HandleSpawning();
     }
 
@@ -104,13 +66,14 @@ public class EnemyFlowerBot : EnemyCharacter
             CanIMove = false;
             _blades.SpinBlades = false;
             _blades.UnpackBlades(false);
-            _movingComponent.MovementChoice = 2;
+            ThisMovingComponent.MovementChoice = 2;
         }
     }
 
     public override void HandleChasing()
     {
         CanIMove = true;
+        StartCoroutine(ThisCharStatManagerEnemies.GetComponent<INoisy>().MakeNoise(0.5f));
         if (TargetToMoveTo == null)
         {
             ChangeState(ActorState.Sleeping);
@@ -131,7 +94,7 @@ public class EnemyFlowerBot : EnemyCharacter
         // deal with player
         if (TargetToMoveTo.CompareTag("Player"))
         {
-            _movingComponent.MovementChoice = _defaultMoveScheme;
+            ThisMovingComponent.MovementChoice = _defaultMoveScheme;
             ChangeState(ActorState.Chasing);
         }
     }
@@ -139,8 +102,8 @@ public class EnemyFlowerBot : EnemyCharacter
     public override void HandleTakingDamage()
     {
         // TODO not here
-        var healthPercent = 1 - _charStatsManagerEnemies.CharBasicStats.Health / _charStatsManagerEnemies.CharScriptable.BasicStats.Health;
-        _healthIndicator.material.SetFloat("_HealthPercent", healthPercent);
+        var healthPercent = 1 - ThisCharStatManagerEnemies.CharBasicStats.Health / ThisCharStatManagerEnemies.CharScriptable.BasicStats.Health;
+        HealthIndicator.material.SetFloat("_HealthPercent", healthPercent);
         //StunMePlease(0.5f, false);
         //_charStatsManagerEnemies.TakeDamage(_charStatsManagerEnemies.IncomingDamage);
     }
@@ -173,7 +136,7 @@ public class EnemyFlowerBot : EnemyCharacter
         _blades.UnpackBlades(true);
         yield return new WaitForSeconds(0.4f);
         _blades.SpinBlades = true;
-        _movingComponent.MovementChoice = _defaultMoveScheme;
+        ThisMovingComponent.MovementChoice = _defaultMoveScheme;
     }
 
     private IEnumerator StunnedSequence()
@@ -184,12 +147,12 @@ public class EnemyFlowerBot : EnemyCharacter
         }
 
         CanIMove = false;
-        _movingComponent.MovementChoice = 2;
+        ThisMovingComponent.MovementChoice = 2;
         _blades.SpinBlades = false;
         _blades.UnpackBlades(false);
-        _animator.SetBool("Stunned", true);
+        ThisAnimator.SetBool("Stunned", true);
         yield return new WaitForSeconds(_stunForTime);          // TODO actor stun time parameter or sth
-        _animator.SetBool("Stunned", false);
+        ThisAnimator.SetBool("Stunned", false);
         if (!IsDead)
         {
             ChangeState(ActorState.Chasing);
@@ -204,7 +167,7 @@ public class EnemyFlowerBot : EnemyCharacter
         }
         StopCoroutine(StunnedSequence());
         CanIMove = false;
-        _movingComponent.MovementChoice = 2;
+        ThisMovingComponent.MovementChoice = 2;
 
         _blades.SpinBlades = false;
         _blades.UnpackBlades(false);
@@ -215,7 +178,7 @@ public class EnemyFlowerBot : EnemyCharacter
         GetComponent<VisionComponent>().enabled = false;
         GetComponent<MovingComponent>().enabled = false;
         GetComponent<NavMeshAgent>().enabled = false;
-        _animator.enabled = false;
+        ThisAnimator.enabled = false;
         gameObject.GetComponent<Rigidbody>().freezeRotation = false;
 
         var legsCollidersWOParent = _allColliders.ToList().Skip(1);
@@ -227,7 +190,7 @@ public class EnemyFlowerBot : EnemyCharacter
                 continue;
             }
             col.enabled = true;
-            col.gameObject.AddComponent<CharacterJoint>().connectedBody = _rigidbody;
+            col.gameObject.AddComponent<CharacterJoint>().connectedBody = ThisRigidbody;
         }
 
         foreach (Rigidbody rgb in _allRigidbodies)
@@ -269,7 +232,7 @@ public class EnemyFlowerBot : EnemyCharacter
     {
         IDamaging idam = col.gameObject.GetComponent<IDamaging>();
         if (idam == null || (col.gameObject.layer != 10)) return;
-        _charStatsManagerEnemies.TakeDamage(idam.DamageAmount);
+        ThisCharStatManagerEnemies.TakeDamage(idam.DamageAmount);
         ChangeState(ActorState.TakingDamage); 
     }
 }

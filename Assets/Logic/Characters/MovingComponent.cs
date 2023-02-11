@@ -21,6 +21,8 @@ public class MovingComponent : MonoBehaviour
     private MovementDecisions WhatToDo;
     int _movementChoice = 0;
 
+    public Vector3 TempTargetPoint { get { return _tempTargetPoint; } }
+
     private void Awake()
     {
         _thisCharacter = GetComponent<CharacterBase>();

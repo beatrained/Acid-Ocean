@@ -16,32 +16,49 @@ public class CannonController : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 10;
     [SerializeField] private Camera _camera;
     [SerializeField] GameObject _objectToRotate;
-    [SerializeField] LayerMask _layerMask;
+    [SerializeField] LayerMask _mousePointerMask;
+
+    [SerializeField] private Transform _gunEndPoint;
+    [SerializeField] private ProjectileSO _projectileScriptable;
 
     private void Awake()
     {
         LocalEventManager.StandOnFourLegs += LocalEventManager_StandOnFourLegs;
         LocalEventManager.StandOnTwoLegs += LocalEventManager_StandOnTwoLegs;
+
         _previousRotation = _objectToRotate.transform.rotation;
     }
 
     private void Start()
     {
         _playerInputActions = GetComponent<PlayerController>().PlayerInputActions;
+        _playerInputActions.PlayerBasicMovement.Attack.performed += Attack_performed;
+    }
+
+    private void Attack_performed(InputAction.CallbackContext obj)
+    {
+        if (CanTurretRotate)
+        {
+            ShootProjectile();
+        }
+    }
+
+    public void ShootProjectile()
+    {
+        Vector3 spawnDir = (_pointToLookAt - _gunEndPoint.position).normalized;
+        GameObject bulletTransform = Instantiate(_projectileScriptable.ProjectilePrefab, _gunEndPoint.position, Quaternion.identity);
+        bulletTransform.GetComponent<PlayerTurretBulletController>().InitProjectile(spawnDir, _projectileScriptable.ProjectileSpeed);
     }
 
     // X & Z must be 0
 
     private void LocalEventManager_StandOnTwoLegs()
     {
-        //_previousRotation = _objectToRotate.transform.rotation;
         Invoke("TurretActivation", 1.5f);
     }
 
     private void LocalEventManager_StandOnFourLegs()
     {
-        //_objectToRotate.transform.rotation = _previousRotation;
-        //_objectToRotate.transform.localRotation = GetComponentInParent<Transform>().rotation;
         TurretActivation();
     }
 
@@ -60,12 +77,14 @@ public class CannonController : MonoBehaviour
 
     private void RotateTurret()
     {
+
+        // TODO Mouse things should be on its own, somewhere else. PlayerController.cs?
         _mouseCoords = _playerInputActions.PlayerBasicMovement.MousePosition.ReadValue<Vector2>();
         _ray = _camera.ScreenPointToRay(_mouseCoords);
 
         if (Time.frameCount % 2 == 0)
         {
-            Physics.Raycast(_ray, out RaycastHit hit, Mathf.Infinity, _layerMask);
+            Physics.Raycast(_ray, out RaycastHit hit, Mathf.Infinity, _mousePointerMask);
             _pointToLookAt = hit.point;
         }
 
