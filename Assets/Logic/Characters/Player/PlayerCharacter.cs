@@ -50,6 +50,6 @@ public class PlayerCharacter : CharacterBase
     public override void HandleDying()
     {
         base.HandleDying();
-        CanIMove = false;                       //AI only
+        // CanIMove = false;
     }
 }

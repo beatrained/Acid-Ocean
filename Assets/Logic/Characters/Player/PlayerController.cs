@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using AcidOcean.Game;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Collections;
 
 namespace AcidOcean.Gameplay
 {
@@ -119,6 +120,7 @@ namespace AcidOcean.Gameplay
             if (_animator.GetBool("OnTwoLegs"))
             {
                 _animator.SetTrigger("AttackTrigger");
+                StartCoroutine(FreezePlayerDuringAnimation(1, 0.3f));
                 _playerCharacter.AttackPlease();
             }
         }
@@ -143,20 +145,27 @@ namespace AcidOcean.Gameplay
                 {
                     LocalEventManager.StayOnFour();
                     _animator.SetBool("OnTwoLegs", true);
+                    StartCoroutine(FreezePlayerDuringAnimation(0, 0.3f));
                 }
                 else
                 {
                     LocalEventManager.StayOnTwo();
                     _animator.SetBool("OnTwoLegs", false);
+                    StartCoroutine(FreezePlayerDuringAnimation(0, 0.3f));
                 }
                 UpdateStats();
             }
         }
 
-        // Animation Event on player character StandUp and WeaponAttackONE-mod1 animation clips
-        public void _FreezePlayer()
+        public IEnumerator FreezePlayerDuringAnimation(int layerIndex, float timeCorrection)
         {
-            _playerCharacter.CanIMove = !_playerCharacter.CanIMove;
+            // for 100% correct GetCurrentAnimatorStateInfo pick 
+            yield return new WaitForSeconds(0.3f);
+
+            float time = _animator.GetCurrentAnimatorStateInfo(layerIndex).length;
+            _playerCharacter.CanIMove = false;
+            yield return new WaitForSeconds(time - timeCorrection);
+            _playerCharacter.CanIMove = true;
         }
 
         // Animation Event on player character WeaponEquipX-mod1 animation clip
